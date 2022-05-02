@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class User
+    public class Employee 
     {
+        
+
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public Employee()
+        {
 
+        }
+        public Employee(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
     }
 }

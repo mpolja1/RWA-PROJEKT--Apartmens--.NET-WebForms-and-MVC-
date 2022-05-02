@@ -1,26 +1,40 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminPage.Master" AutoEventWireup="true" CodeBehind="Apartmants.aspx.cs" Inherits="Apartmani.Apartmants" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-  
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
 
-    <div class="container p-4">
-            <fieldset>
-                <legend>User: <b runat="server" id="bUsername"></b></legend>
+    <div class="" runat="server">
+        <div class="d-flex  my-3">
+            <asp:Label ID="lblStatus" CssClass="p-2" runat="server" Text="Status"></asp:Label>  
+            <asp:DropDownList ID="ddlStatus" class="form-group "  runat="server">
 
-                <div class='mb-3'>
-                    <asp:Label ID="lblFName" runat="server" Text="First name:"></asp:Label>
-                    <p id="pFName" runat="server"></p>
-                </div>
 
-                <div class='mb-3'>
-                     <asp:Label ID="lblLName" runat="server" Text="Last name:"></asp:Label>
-                     <p id="pLName" runat="server"></p>
-                </div>
-
-                <%--<asp:Button ID="btnLogout" class='btn btn-primary' runat="server" Text="Logout" />--%>
-           </fieldset>
+                </asp:DropDownList>
         </div>
+        <div class="d-flex justify-content-between">
+
+            <div class="d-flex mb-3">
+                <asp:Label ID="lblCity" CssClass="p-2" runat="server" Text="City"></asp:Label>  
+                <asp:DropDownList ID="ddlCity" class="form-select w-100"  runat="server">
+
+
+                </asp:DropDownList>
+                
+                
+            </div>
+            <div class="d-flex my-3 mx-5">
+                <asp:Label ID="lblSort" runat="server" CssClass="p-0" Text="Sort by"></asp:Label>  
+                <asp:DropDownList ID="ddlSort" class="form-group"  runat="server">
+
+
+                </asp:DropDownList>
+            </div>
+        </div>
+
+    </div>
+    <asp:Button ID="btnGradispis" runat="server" Text="Button" OnClick="btnGradispis_Click" />
+    <asp:Label ID="lblGrad" runat="server" Text=""></asp:Label>
 
 </asp:Content>

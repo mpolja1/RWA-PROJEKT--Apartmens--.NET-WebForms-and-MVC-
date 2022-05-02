@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DAL;
+using DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,26 +13,34 @@ namespace Apartmani
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["employee"] != null)
+            {
+                Response.Redirect("Apartmants.aspx");
+            }
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
+
+               
                 var username = txtUsername.Text;
                 var password = txtPassword.Text;
 
-                if (username == "admin" && password=="123")
+                Employee employee = ((Irepo)Application["database"]).AuthEmployee(username,password);
+                
+                if (employee == null)
                 {
 
-                    Session["name"] = txtUsername.Text;
-                    Session["password"] = txtPassword.Text;
-                    Response.Redirect("Apartmants.aspx");
+                    txtUsername.Text = "";
+                    txtPassword.Text = "";
+                    PanelIspis.Visible = true;
                 }
                 else
                 {
-                    PanelIspis.Visible = true;
+                    Session["employee"] = employee;
+                    Response.Redirect("Apartmants.aspx");
                 }
             }
             

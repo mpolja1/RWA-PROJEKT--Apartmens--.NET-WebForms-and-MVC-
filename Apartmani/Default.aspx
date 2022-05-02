@@ -21,7 +21,7 @@
 
                     <form runat="server">
 
-                        <!-- Email input -->
+                        <!-- Username input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="form3Example3">Username</label>
                             <asp:TextBox ID="txtUsername" runat="server" class="form-control form-control-lg"

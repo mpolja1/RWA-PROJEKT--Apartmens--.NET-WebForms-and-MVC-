@@ -12,8 +12,11 @@
 </head>
 <body>
     <form id="Web_app" runat="server">
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+ <nav class="navbar  navbar-expand-lg .bg-transparent navbar-light bg-light">
         <div class="container-fluid">
+            <a class="navbar-brand " href="#">
+      <img src="https://thumbs.dreamstime.com/b/building-apartments-logo-124916842.jpg"  alt="A" width="50" height="54" >
+    </a>
             <a class="navbar-brand" href="/Home.aspx">RWA - Admin apartmants</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -31,17 +34,19 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-outline-success" type="submit">Logout</button>
+                    <asp:Button ID="btnLogout" class='nav-link btn btn-danger text-white' runat="server" Text="Logout" OnClick="btnLogout_Click"  />
                 </div>
             </div>
         </div>
     </nav>
-    </form>
-    
-     <div>
+         <div>
             <asp:ContentPlaceHolder ID="Content" runat="server">
             </asp:ContentPlaceHolder>
         </div>
+        <hr class='mt-4'><div class='text-center'><p>RWA- <%: DateTime.Now.Year %> &copy;</p></div>
+    </form>
+    
+    
 </body>
 <!-- JavaScript Bundle with Popper -->
 <script src="Scripts/jquery-3.6.0.min.js"></script>

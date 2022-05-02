@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class User
+    public class ApartmantStatus
     {
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-
+        public string Guid { get; set; }
+        public string Name { get; set; }
+        public string NameEng { get; set; }
     }
 }
