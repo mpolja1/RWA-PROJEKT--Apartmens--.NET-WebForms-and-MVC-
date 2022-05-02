@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartmani - admin", "Apartmani\Apartmani - admin.csproj", "{50FB211E-19CB-4891-9C0F-72944D0B3FC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWALib", "DAL\RWALib.csproj", "{67CFFBAB-7556-424B-80B4-2380208D854B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50FB211E-19CB-4891-9C0F-72944D0B3FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50FB211E-19CB-4891-9C0F-72944D0B3FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50FB211E-19CB-4891-9C0F-72944D0B3FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50FB211E-19CB-4891-9C0F-72944D0B3FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67CFFBAB-7556-424B-80B4-2380208D854B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CFFBAB-7556-424B-80B4-2380208D854B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67CFFBAB-7556-424B-80B4-2380208D854B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CFFBAB-7556-424B-80B4-2380208D854B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {977B620D-A331-48C7-9CD5-D47A9F889732}
+	EndGlobalSection
+EndGlobal
