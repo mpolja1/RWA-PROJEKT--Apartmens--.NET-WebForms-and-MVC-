@@ -10,7 +10,22 @@ namespace DAL.Models
     public class City
     {
         public int Id { get; set; }
-        public string Guid { get; set; }
+        public Guid Guid { get; set; }
         public string Name { get; set; }
+
+        public City()
+        {
+
+        }
+
+        public City(int id, Guid guid, string name)
+        {
+            Id = id;
+            Guid = guid;
+            Name = name;
+        }
+
+        public override string ToString()
+        => $"{Name}";
     }
 }

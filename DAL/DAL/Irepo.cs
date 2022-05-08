@@ -10,8 +10,24 @@ namespace DAL
     public interface Irepo
     {
         Employee AuthEmployee(string username, string password);
-        IList<City> GetCities();
+        List<City> GetCities();
+        List<ApartmantStatus> GetApartmentStatus();
 
-        IList<ApartmantStatus> GetApartmentStatus();
+        List<Tag> GetTagCount();
+
+        void SaveTag(Tag tag);
+
+        void DeleteTag(int id);
+
+        List<Apartment> GetApartments();
+        List<TagType> GetTagTypes();
+
+        void DeleteApartmentSoft(int id);
+        void SaveApartment(Apartment apartment);
+        IList<User> GetUsers();
+       
+
+        //IList<Apartment> GetApartmentsByCity(int id);
+
     }
 }

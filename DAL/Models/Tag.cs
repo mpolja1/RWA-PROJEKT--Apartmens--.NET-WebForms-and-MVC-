@@ -6,27 +6,29 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class ApartmantStatus
+    public class Tag
     {
-        
+       
         public int Id { get; set; }
         public Guid Guid { get; set; }
+        public DateTime DateTime { get; set; }
+
+        public int? TagCount{ get; set; }
+        public int TypeId { get; set; }
         public string Name { get; set; }
         public string NameEng { get; set; }
 
-        public ApartmantStatus(int id, Guid guid, string name, string nameEng)
+        public Tag()
         {
-            Id = id;
-            Guid = guid;
+
+        }
+        public Tag(int typeId, string name, string nameEng)
+        {
+            TypeId = typeId;
             Name = name;
             NameEng = nameEng;
         }
-        public ApartmantStatus()
-        {
+       
 
-        }
-
-        public override string ToString()
-        => $"{Name}";
     }
 }

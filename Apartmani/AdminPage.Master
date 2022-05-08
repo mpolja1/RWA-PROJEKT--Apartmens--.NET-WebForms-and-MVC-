@@ -9,6 +9,8 @@
     </asp:ContentPlaceHolder>
 
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
+ <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+    <link href="/style/MyStyle.css" rel="stylesheet" />
 </head>
 <body>
     <form id="Web_app" runat="server">
@@ -30,7 +32,7 @@
                         <a class="nav-link" href="/Tags.aspx">Tags</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="/Users.aspx" tabindex="-1" aria-disabled="true">Registred Users</a>
+                        <a class="nav-link " href="/RegistredUsers.aspx" tabindex="-1" aria-disabled="true">Registred Users</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -51,6 +53,13 @@
 <!-- JavaScript Bundle with Popper -->
 <script src="Scripts/jquery-3.6.0.min.js"></script>
 
-<!-- BOOTSTRAP -->
+
 <script src="Scripts/bootstrap.min.js"></script>
+
+    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        });
+    </script>
 </html>
