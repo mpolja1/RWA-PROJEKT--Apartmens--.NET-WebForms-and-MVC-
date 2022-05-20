@@ -25,6 +25,7 @@ namespace DAL.Models
         public int MaxChildren { get; set; }
         public int TotalRooms { get; set; }
         public int BeachDistance { get; set; }
+        public List<TaggedApartment> TaggedApartments { get; set; }
 
         public Apartment()
         {
@@ -33,6 +34,21 @@ namespace DAL.Models
 
         public Apartment(ApartmentOwner owner, ApartmantStatus status, City city, string address, string name, string nameEng, decimal price, int maxAdults, int maxChildren, int totalRooms, int beachDistance)
         {
+            Owner = owner;
+            Status = status;
+            City = city;
+            Address = address;
+            Name = name;
+            NameEng = nameEng;
+            Price = price;
+            MaxAdults = maxAdults;
+            MaxChildren = maxChildren;
+            TotalRooms = totalRooms;
+            BeachDistance = beachDistance;
+        }
+        public Apartment(int id,ApartmentOwner owner, ApartmantStatus status, City city, string address, string name, string nameEng, decimal price, int maxAdults, int maxChildren, int totalRooms, int beachDistance)
+        {
+            Id = id;
             Owner = owner;
             Status = status;
             City = city;

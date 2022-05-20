@@ -15,16 +15,23 @@ namespace Apartmani
         private List<City> _listofCities;
         private List<ApartmantStatus> _listofApartmentStauts;
         private List<Apartment> _listofApartments;
+       
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Employee em = (Employee)Session["employee"];
+            if (em == null)
+            {
+                Response.Redirect("Default.aspx");
+            }
+
             try
             {
 
                 _listofCities = ((Irepo)Application["database"]).GetCities();
                 _listofApartments = ((Irepo)Application["database"]).GetApartments();
                 _listofApartmentStauts = ((Irepo)Application["database"]).GetApartmentStatus();
-
+             
             }
             catch (Exception ex)
             {
@@ -40,11 +47,7 @@ namespace Apartmani
                
             }
 
-            Employee em = (Employee)Session["employee"];
-            if (em == null)
-            {
-                Response.Redirect("Default.aspx");
-            }
+           
 
 
         }
@@ -62,10 +65,13 @@ namespace Apartmani
 
         private void AppendCity()
         {
+            
+
             ddlCity.DataSource = _listofCities;
             ddlCity.DataValueField = "Id";
             ddlCity.DataTextField = "Name";
             ddlCity.DataBind();
+            //ddlCity.Items.Insert(0, new ListItem("Any"));
         }
 
         private void AppendStatus()
@@ -87,32 +93,51 @@ namespace Apartmani
         {
             List<Apartment> _listofApartmentsByCity = new List<Apartment>();
 
-            int selectedCity = Convert.ToInt32(ddlCity.SelectedValue);
-            int selectedStatus = int.Parse(ddlStatus.SelectedValue);
+            DropDownList ddl = sender as DropDownList;
 
-            indexx.Text = Convert.ToInt32(selectedStatus).ToString();
+            if (ddl.SelectedIndex != 0)
+            {
+                int selectedCity = Convert.ToInt32(ddlCity.SelectedValue);
+                int selectedStatus = int.Parse(ddlStatus.SelectedValue);
 
-            _listofApartmentsByCity=_listofApartments.Where(x => x.City.Id == selectedCity && x.Status.Id == selectedStatus).ToList();
+                
 
-            RepeaterApartments.DataSource = _listofApartmentsByCity;
-            RepeaterApartments.DataBind();
+                _listofApartmentsByCity = _listofApartments.Where(x => x.City.Id == selectedCity /*&& x.Status.Id == selectedStatus*/).ToList();
 
+                RepeaterApartments.DataSource = _listofApartmentsByCity;
+                RepeaterApartments.DataBind();
+                
+            }
+
+            
         }
 
         protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<Apartment> apartmentsbystatus = new List<Apartment>();
 
-
-            int selectedCity = int.Parse(ddlCity.SelectedValue);
+            
             int selectedStatus = int.Parse(ddlStatus.SelectedValue);
+            if (ddlCity.SelectedIndex != 0)
+            {
+                int selectedCity = int.Parse(ddlCity.SelectedValue);
+               
+                
+                apartmentsbystatus = _listofApartments.Where(x => x.City.Id == selectedCity && x.Status.Id == selectedStatus).ToList();
+            }
+            else
+            {
+                apartmentsbystatus = _listofApartments.Where(x =>  x.Status.Id == selectedStatus).ToList();
+            }
 
-            indexx.Text = Convert.ToInt32(selectedStatus).ToString();
-            apartmentsbystatus=_listofApartments.Where(x => x.City.Id == selectedCity && x.Status.Id == selectedStatus).ToList();
+            
 
-            indexx.Text = selectedCity + "=city  " + selectedStatus + "=status";
-            RepeaterApartments.DataSource = apartmentsbystatus;
-            RepeaterApartments.DataBind();
+
+            //indexx.Text = /*selectedCity +*/ "=city  " + selectedStatus + "=status";
+                RepeaterApartments.DataSource = apartmentsbystatus;
+                RepeaterApartments.DataBind();
+            
+           
         }
 
         private void RefreshData(List<Apartment> listofApartments)
@@ -123,12 +148,14 @@ namespace Apartmani
 
         protected void btnAdd_Click(object sender, EventArgs e)
         {
-            
-            //    AppendCityInForm();
-            //    AppendStatusInForm();
-            
-            //PanelApartment.Visible = true;
-           
+
+
+
+            AppendCityInForm();
+            AppendStatusInForm();
+
+            PanelApartment.Visible = true;
+
 
         }
 
@@ -148,29 +175,62 @@ namespace Apartmani
             ddlCityAdd.DataBind();
         }
 
-        protected void btnAddApartment_Click(object sender, EventArgs e)
+        protected void btnSaveApartment(object sender, EventArgs e)
         {
-            ApartmentOwner apartmentOwner = new ApartmentOwner();
-            ApartmantStatus apartmantStatus = new ApartmantStatus();
-            City city = new City();
 
-            apartmentOwner.Name = txtOwnerName.Text;
-            apartmantStatus.Id  = int.Parse(ddlStatusAdd.SelectedValue);
-            city.Id = int.Parse(ddlCityAdd.SelectedValue);
-            string address = txtAddress.Text;
-            string apartmentName = txtName.Text;
-            string apartmentNameEng = txtNameEng.Text;
-            decimal price = decimal.Parse(txtPrice.Text);
-            int maxAdults = int.Parse(txtMaxAdults.Text);
-            int maxChildren = int.Parse(txtMaxChildren.Text);
-            int totalRooms = int.Parse(txtTotalRooms.Text);
-            int beachDistance = int.Parse(txtBeachDistance.Text);
+            
+                ApartmentOwner apartmentOwner = new ApartmentOwner();
+                ApartmantStatus apartmantStatus = new ApartmantStatus();
+                City city = new City();
 
-           
+                if (Page.IsValid)
+                {
+                    apartmentOwner.Name = txtOwnerName.Text;
+                    apartmantStatus.Id = int.Parse(ddlStatusAdd.SelectedValue);
+                    city.Id = int.Parse(ddlCityAdd.SelectedValue);
+                    string address = txtAddress.Text;
+                    string apartmentName = txtName.Text;
+                    string apartmentNameEng = txtNameEng.Text;
+                    decimal price = decimal.Parse(txtPrice.Text);
+                    int maxAdults = int.Parse(txtMaxAdults.Text);
+                    int maxChildren = int.Parse(txtMaxChildren.Text);
+                    int totalRooms = int.Parse(txtTotalRooms.Text);
+                    int beachDistance = int.Parse(txtBeachDistance.Text);
 
-            Apartment apartment = new Apartment(apartmentOwner, apartmantStatus, city, address, apartmentName, apartmentNameEng, price, maxAdults, maxChildren, totalRooms, beachDistance);
-            ((Irepo)Application["database"]).SaveApartment(apartment);
+                    Apartment apartment = new Apartment(apartmentOwner, apartmantStatus, city, address, apartmentName, apartmentNameEng, price, maxAdults, maxChildren, totalRooms, beachDistance);
+                    ((Irepo)Application["database"]).SaveApartment(apartment);
+                    Response.Redirect(Request.Url.LocalPath);
+                }
 
+            
+
+        }
+
+        protected void btnDetails_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = sender as LinkButton;
+            int id = int.Parse(btn.CommandArgument);
+
+            Session["IdApartment"]= id;
+
+            Response.Redirect("ApartmentDetails.aspx");
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = sender as LinkButton;
+            int id = int.Parse(btn.CommandArgument);
+            ((Irepo)Application["database"]).DeleteApartmentSoft(id);
+            AppendApartments();
+        }
+
+        public bool IsRepresentative(int myValue)
+        {
+            if (myValue == 1)
+            {
+                return true;
+            }
+            return false;
 
         }
     }

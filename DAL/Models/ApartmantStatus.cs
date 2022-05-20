@@ -26,6 +26,11 @@ namespace DAL.Models
 
         }
 
+        public ApartmantStatus(string name)
+        {
+            Name = name;
+        }
+
         public override string ToString()
         => $"{Name}";
     }

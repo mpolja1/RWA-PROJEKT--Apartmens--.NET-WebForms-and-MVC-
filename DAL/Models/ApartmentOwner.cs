@@ -27,5 +27,10 @@ namespace DAL.Models
         {
 
         }
+
+        public ApartmentOwner(string name)
+        {
+            Name = name;
+        }
     }
 }

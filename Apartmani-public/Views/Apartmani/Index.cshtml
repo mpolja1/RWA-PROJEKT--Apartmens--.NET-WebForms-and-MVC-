@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DAL.Models.Apartment>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+
+    if (item.Price > 0)
+        {
+        
+        <div class="col-md-4  col-lg-4" style="margin-bottom:10px">
+            <div class="card mb-2 table-bordered " style="border-radius:10%;padding:5px">
+                <h4 class="card-title text-center" style="margin:5px"> @item.Name </h4>
+                <hr />
+                <img src="https://www.apartmanija.hr/slike/apartments/Centar_Niko_21d4f3bc9976.jpg" class="rounded-circl" style="border-radius: 5%" width="250" height="200">
+                <div class="card-body " style="padding:10px">
+
+                    <p class="card-text">
+
+                    </p>
+                    <div class="col-sm-6">
+                        <span class="font-bold"><strong> @item.Price</strong></span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <button type="button" style="border-radius:10px"
+                                        class="btn btn-primary btn-sm btn-block "
+                                        id="addToCart-1" onclick="addToCart(1)">
+                                    <span class=""
+                                          aria-hidden="true"></span> DETAILS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+@*@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameEng)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxAdults)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxChildren)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalRooms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeachDistance)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+
+    </table>*@

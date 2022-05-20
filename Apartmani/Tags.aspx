@@ -11,7 +11,7 @@
     <asp:Panel ID="PanelAddTag" runat="server" Visible="false">
 
         <div class="row mb-3 container ">
-            <div class="col-md-6">
+            <div class="col-12">
                 <asp:TextBox ID="txtName" class="form-control w-25" runat="server" placeholder="Name"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtName" ForeColor="Red" runat="server">*</asp:RequiredFieldValidator>
             </div>
@@ -28,8 +28,7 @@
         </div>
     </asp:Panel>
 
-
-    
+ 
         <asp:Repeater ID="RepeaterTags" runat="server" OnItemCommand="RepeaterTags_DeleteTag">
             <ItemTemplate>
                 <ul>
@@ -42,7 +41,7 @@
             </ItemTemplate>
         </asp:Repeater>
     
-   <script src="Scripts/MyScript.js"></script>
+  
 
 
 

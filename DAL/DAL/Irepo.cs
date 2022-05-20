@@ -25,7 +25,16 @@ namespace DAL
         void DeleteApartmentSoft(int id);
         void SaveApartment(Apartment apartment);
         IList<User> GetUsers();
-       
+
+        void UpdateApartment(Apartment apartment);
+        Apartment GetApartmentById(int id);
+
+        void SaveApartmentReservation(int idapartment, ApartmentReservation apartmentReservation);
+
+        IList<TaggedApartment> GetTagsByApartment(int id);
+
+        void SaveApartmentImages(ApartmentPicture apartmentpicture);
+        IList<ApartmentPicture> GetApartmentPictures(int id);
 
         //IList<Apartment> GetApartmentsByCity(int id);
 

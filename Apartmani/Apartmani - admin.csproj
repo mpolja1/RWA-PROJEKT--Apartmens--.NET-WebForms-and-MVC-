@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Apartmants.aspx" />
+    <Content Include="ApartmentDetails.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -124,6 +125,13 @@
     </Compile>
     <Compile Include="Apartmants.aspx.designer.cs">
       <DependentUpon>Apartmants.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ApartmentDetails.aspx.cs">
+      <DependentUpon>ApartmentDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ApartmentDetails.aspx.designer.cs">
+      <DependentUpon>ApartmentDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Default.aspx.cs">
@@ -211,6 +219,9 @@
       <Project>{67cffbab-7556-424b-80b4-2380208d854b}</Project>
       <Name>RWALib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

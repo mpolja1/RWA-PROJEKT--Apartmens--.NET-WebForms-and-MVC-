@@ -40,6 +40,66 @@ namespace DAL.DAL
             SqlHelper.ExecuteNonQuery(CS, nameof(DeleteTag), id);
         }
 
+        public Apartment GetApartmentById(int id)
+        {
+
+            var tblapartments = SqlHelper.ExecuteDataset(CS, nameof(GetApartmentById), id).Tables[0];
+            foreach (DataRow row in tblapartments.Rows)
+            {
+                return new Apartment
+                {
+
+                    Id = (int)row[nameof(Apartment.Id)],
+                    Guid = (Guid)row[nameof(Apartment.Guid)],
+                    CreatedAt = (DateTime)row[nameof(Apartment.CreatedAt)],
+                    //DeletedAt = (DateTime)row[nameof(Apartment.DeletedAt)],
+                    Owner = new ApartmentOwner((int)row["OwnerId"], (Guid)row["OwnerGuid"],
+                        (DateTime)row["OwnerCreatedAt"], row["OwnerName"].ToString()),
+
+                    Status = new ApartmantStatus((int)row["StatusID"], (Guid)row["StatusGuid"],
+                        row["StatusName"].ToString(), row["StatusNameEng"].ToString()),
+
+                    City = new City((int)row["CityId"], (Guid)row["CityGuid"], row["CityName"].ToString()),
+
+                    Address = row[nameof(Apartment.Address)].ToString(),
+                    Name = row[nameof(Apartment.Name)].ToString(),
+                    NameEng = row[nameof(Apartment.NameEng)].ToString(),
+                    Price = (decimal)row[nameof(Apartment.Price)],
+                    MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
+                    MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
+                    TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
+                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
+
+                };
+            };
+
+            return null;
+
+        }
+
+        public IList<ApartmentPicture> GetApartmentPictures(int id)
+        {
+            IList<ApartmentPicture> apartmentPictures = new List<ApartmentPicture>();
+            var tblpicture = SqlHelper.ExecuteDataset(CS,nameof(GetApartmentPictures),id).Tables[0];
+
+            foreach (DataRow row in tblpicture.Rows)
+            {
+                apartmentPictures.Add(new ApartmentPicture
+                {
+                    Id = (int)row[nameof(ApartmentPicture.Id)],
+                    Guid = (Guid)row[nameof(ApartmentPicture.Guid)],
+                    CreatedAt = (DateTime)row[nameof(ApartmentPicture.CreatedAt)],
+                    ApartmentId = (int)row[nameof(ApartmentPicture.ApartmentId)],
+                    Path = row[nameof(ApartmentPicture.Path)].ToString(),
+                    Name = row[nameof(ApartmentPicture.Name)].ToString(),
+                    isRepresentative = (bool)row[nameof(ApartmentPicture.isRepresentative)]
+                });
+            }
+
+            return apartmentPictures;
+
+        }
+
         public List<Apartment> GetApartments()
         {
             List<Apartment> apartments = new List<Apartment>();
@@ -81,188 +141,225 @@ namespace DAL.DAL
             //    }
             //}
 
-                foreach (DataRow row in apartman.Rows)
-                {   
-                    apartments.Add( new Apartment
-                    {
+            foreach (DataRow row in apartman.Rows)
+            {
+                apartments.Add(new Apartment
+                {
 
-                        Id = (int)row[nameof(Apartment.Id)],
-                        Guid = (Guid)row[nameof(Apartment.Guid)],
-                        CreatedAt = (DateTime)row[nameof(Apartment.CreatedAt)],
-                        //DeletedAt = (DateTime)row[nameof(Apartment.DeletedAt)],
-                        Owner = new ApartmentOwner((int)row["OwnerId"], (Guid)row["OwnerGuid"],
-                        (DateTime)row["OwnerCreatedAt"], row["OwnerName"].ToString()),
+                    Id = (int)row[nameof(Apartment.Id)],
+                    Guid = (Guid)row[nameof(Apartment.Guid)],
+                    CreatedAt = (DateTime)row[nameof(Apartment.CreatedAt)],
+                    //DeletedAt = (DateTime)row[nameof(Apartment.DeletedAt)],
+                    Owner = new ApartmentOwner((int)row["OwnerId"], (Guid)row["OwnerGuid"],
+                    (DateTime)row["OwnerCreatedAt"], row["OwnerName"].ToString()),
 
-                        Status = new ApartmantStatus((int)row["StatusID"], (Guid)row["StatusGuid"],
-                        row["StatusName"].ToString(), row["StatusNameEng"].ToString()),
+                    Status = new ApartmantStatus((int)row["StatusID"], (Guid)row["StatusGuid"],
+                    row["StatusName"].ToString(), row["StatusNameEng"].ToString()),
 
-                        City = new City((int)row["CityId"], (Guid)row["CityGuid"], row["CityName"].ToString()),
+                    City = new City((int)row["CityId"], (Guid)row["CityGuid"], row["CityName"].ToString()),
 
-                        Address = row[nameof(Apartment.Address)].ToString(),
-                        Name = row[nameof(Apartment.Name)].ToString(),
-                        NameEng = row[nameof(Apartment.NameEng)].ToString(),
-                        Price = (decimal)row[nameof(Apartment.Price)],
-                        MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
-                        MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
-                        TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
-                        BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
+                    Address = row[nameof(Apartment.Address)].ToString(),
+                    Name = row[nameof(Apartment.Name)].ToString(),
+                    NameEng = row[nameof(Apartment.NameEng)].ToString(),
+                    Price = (decimal)row[nameof(Apartment.Price)],
+                    MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
+                    MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
+                    TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
+                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
 
-                    });
+                });
             }
             return apartments;
         }
 
-    public IList<Apartment> GetApartmentsByCity(int id)
-    {
-        IList<Apartment> apartments = new List<Apartment>();
-        var tblapartments = SqlHelper.ExecuteDataset(CS, nameof(GetApartmentsByCity), id).Tables[0];
-
-        foreach (DataRow row in tblapartments.Rows)
+        public IList<Apartment> GetApartmentsByCity(int id)
         {
-            apartments.Add(new Apartment
+            IList<Apartment> apartments = new List<Apartment>();
+            var tblapartments = SqlHelper.ExecuteDataset(CS, nameof(GetApartmentsByCity), id).Tables[0];
+
+            foreach (DataRow row in tblapartments.Rows)
             {
-                Id = (int)row[nameof(Apartment.Id)],
-                Guid = (Guid)row[nameof(Apartment.Guid)],
-                CreatedAt = (DateTime)row[nameof(Apartment.CreatedAt)],
-                //DeletedAt = (DateTime)row[nameof(Apartment.DeletedAt)],
-                Owner = new ApartmentOwner((int)row[nameof(ApartmentOwner.Id)], (Guid)row[nameof(ApartmentOwner.Guid)],
-               (DateTime)row[nameof(ApartmentOwner.CreatedAt)], row[nameof(ApartmentOwner.Name)].ToString()),
+                apartments.Add(new Apartment
+                {
+                    Id = (int)row[nameof(Apartment.Id)],
+                    Guid = (Guid)row[nameof(Apartment.Guid)],
+                    CreatedAt = (DateTime)row[nameof(Apartment.CreatedAt)],
+                    //DeletedAt = (DateTime)row[nameof(Apartment.DeletedAt)],
+                    Owner = new ApartmentOwner((int)row[nameof(ApartmentOwner.Id)], (Guid)row[nameof(ApartmentOwner.Guid)],
+                   (DateTime)row[nameof(ApartmentOwner.CreatedAt)], row[nameof(ApartmentOwner.Name)].ToString()),
 
 
-                //StatusId = (int)row[nameof(Apartment.StatusId)],
-                //CityId = (int)row[nameof(Apartment.CityId)],
-                Address = row[nameof(Apartment.Address)].ToString(),
-                Name = row[nameof(Apartment.Name)].ToString(),
-                NameEng = row[nameof(Apartment.NameEng)].ToString(),
-                Price = (decimal)row[nameof(Apartment.Price)],
-                MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
-                MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
-                TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
-                BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
-            });
+                    //StatusId = (int)row[nameof(Apartment.StatusId)],
+                    //CityId = (int)row[nameof(Apartment.CityId)],
+                    Address = row[nameof(Apartment.Address)].ToString(),
+                    Name = row[nameof(Apartment.Name)].ToString(),
+                    NameEng = row[nameof(Apartment.NameEng)].ToString(),
+                    Price = (decimal)row[nameof(Apartment.Price)],
+                    MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
+                    MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
+                    TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
+                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
+                });
+            }
+
+
+            return apartments;
         }
 
-
-        return apartments;
-    }
-
-    public List<ApartmantStatus> GetApartmentStatus()
-    {
-        List<ApartmantStatus> status = new List<ApartmantStatus>();
-        var tblStatus = SqlHelper.ExecuteDataset(CS, nameof(GetApartmentStatus)).Tables[0];
-
-        foreach (DataRow row in tblStatus.Rows)
+        public List<ApartmantStatus> GetApartmentStatus()
         {
-            status.Add(new ApartmantStatus
+            List<ApartmantStatus> status = new List<ApartmantStatus>();
+            var tblStatus = SqlHelper.ExecuteDataset(CS, nameof(GetApartmentStatus)).Tables[0];
+
+            foreach (DataRow row in tblStatus.Rows)
             {
-                Id = (int)row[nameof(ApartmantStatus.Id)],
-                Guid = (Guid)row[nameof(ApartmantStatus.Guid)],
-                Name = row[nameof(ApartmantStatus.Name)].ToString(),
-                NameEng = row[nameof(ApartmantStatus.NameEng)].ToString()
+                status.Add(new ApartmantStatus
+                {
+                    Id = (int)row[nameof(ApartmantStatus.Id)],
+                    Guid = (Guid)row[nameof(ApartmantStatus.Guid)],
+                    Name = row[nameof(ApartmantStatus.Name)].ToString(),
+                    NameEng = row[nameof(ApartmantStatus.NameEng)].ToString()
+
+                }
+              );
+            }
+            return status;
+        }
+
+        public List<City> GetCities()
+        {
+            List<City> cities = new List<City>();
+            var tblCities = SqlHelper.ExecuteDataset(CS, nameof(GetCities)).Tables[0];
+
+            foreach (DataRow row in tblCities.Rows)
+            {
+                cities.Add(new City
+                {
+                    Id = (int)row[nameof(City.Id)],
+                    Guid = (Guid)row[nameof(City.Guid)],
+                    Name = row[nameof(City.Name)].ToString(),
+                }
+              );
+            }
+            return cities;
+        }
+
+        public List<Tag> GetTagCount()
+        {
+            List<Tag> tagcounts = new List<Tag>();
+            var tblTagcounts = SqlHelper.ExecuteDataset(CS, nameof(GetTagCount)).Tables[0];
+
+            foreach (DataRow row in tblTagcounts.Rows)
+            {
+                tagcounts.Add(new Tag
+                {
+                    Id = (int)row[nameof(Tag.Id)],
+                    Name = row[nameof(Tag.Name)].ToString(),
+                    TagCount = (int)row[nameof(Tag.TagCount)]
+                });
+            }
+            return tagcounts;
+
+        }
+
+        public IList<TaggedApartment> GetTagsByApartment(int id)
+        {
+            List<TaggedApartment> taggedApartments = new List<TaggedApartment>();
+            var tbltagged = SqlHelper.ExecuteDataset(CS, nameof(GetTagsByApartment),id).Tables[0];
+
+            foreach (DataRow row in tbltagged.Rows)
+            {
+                taggedApartments.Add(new TaggedApartment
+                {
+                    Id = (int)row[nameof(TaggedApartment.Id)],
+                    Guid = (Guid)row[nameof(TaggedApartment.Guid)],
+                    TagName = row[nameof(TaggedApartment.TagName)].ToString()
+                });
 
             }
-          );
+
+            return taggedApartments;
         }
-        return status;
-    }
 
-    public List<City> GetCities()
-    {
-        List<City> cities = new List<City>();
-        var tblCities = SqlHelper.ExecuteDataset(CS, nameof(GetCities)).Tables[0];
-
-        foreach (DataRow row in tblCities.Rows)
+        public List<TagType> GetTagTypes()
         {
-            cities.Add(new City
+            List<TagType> tagTypes = new List<TagType>();
+            var tbltagTypes = SqlHelper.ExecuteDataset(CS, nameof(GetTagTypes)).Tables[0];
+
+            foreach (DataRow row in tbltagTypes.Rows)
             {
-                Id = (int)row[nameof(City.Id)],
-                Guid = (Guid)row[nameof(City.Guid)],
-                Name = row[nameof(City.Name)].ToString(),
+                tagTypes.Add(new TagType
+                {
+                    Id = (int)row[nameof(TagType.Id)],
+                    Guid = (Guid)row[nameof(TagType.Guid)],
+                    Name = row[nameof(TagType.Name)].ToString(),
+                    NameEng = row[nameof(TagType.NameEng)].ToString()
+
+                });
+
             }
-          );
+            return tagTypes;
         }
-        return cities;
-    }
 
-    public List<Tag> GetTagCount()
-    {
-        List<Tag> tagcounts = new List<Tag>();
-        var tblTagcounts = SqlHelper.ExecuteDataset(CS, nameof(GetTagCount)).Tables[0];
-
-        foreach (DataRow row in tblTagcounts.Rows)
+        public IList<User> GetUsers()
         {
-            tagcounts.Add(new Tag
+            IList<User> users = new List<User>();
+
+            var tblusers = SqlHelper.ExecuteDataset(CS, nameof(GetUsers)).Tables[0];
+            foreach (DataRow row in tblusers.Rows)
             {
-                Id = (int)row[nameof(Tag.Id)],
-                Name = row[nameof(Tag.Name)].ToString(),
-                TagCount = (int)row[nameof(Tag.TagCount)]
-            });
+                users.Add(new User
+                {
+                    Id = (int)row[nameof(User.Id)],
+                    Guid = (Guid)row[nameof(User.Guid)],
+                    CreatedAt = (DateTime)row[nameof(User.CreatedAt)],
+                    //DeletedAt = (DateTime?)row[nameof(User.DeletedAt)],
+                    Email = row[nameof(User.Email)].ToString(),
+                    EmailConfirmed = (bool)row[nameof(User.EmailConfirmed)],
+                    PasswordHash = row[nameof(User.PasswordHash)].ToString(),
+                    SecurityStamp = row[nameof(User.SecurityStamp)].ToString(),
+                    PhoneNumber = row[nameof(User.PhoneNumber)].ToString(),
+                    //PhoneNumberConfirmed = (bool)row[nameof(User.PhoneNumberConfirmed)],
+                    //LockoutEndDateUtc = (DateTime?)row[nameof(User.LockoutEndDateUtc)],
+                    //LockoutEnabled = (bool)row[nameof(User.LockoutEnabled)],
+                    //AccessFailedCount = (int)row[nameof(User.AccessFailedCount)],
+                    UserName = row[nameof(User.UserName)].ToString(),
+                    Address = row[nameof(User.Address)].ToString()
+
+                });
+
+            }
+            return users;
         }
-        return tagcounts;
 
-    }
-
-    public List<TagType> GetTagTypes()
-    {
-        List<TagType> tagTypes = new List<TagType>();
-        var tbltagTypes = SqlHelper.ExecuteDataset(CS, nameof(GetTagTypes)).Tables[0];
-
-        foreach (DataRow row in tbltagTypes.Rows)
+        public void SaveApartment(Apartment apartment)
         {
-            tagTypes.Add(new TagType
-            {
-                Id = (int)row[nameof(TagType.Id)],
-                Guid = (Guid)row[nameof(TagType.Guid)],
-                Name = row[nameof(TagType.Name)].ToString(),
-                NameEng = row[nameof(TagType.NameEng)].ToString()
-
-            });
-
+            SqlHelper.ExecuteNonQuery(CS, nameof(SaveApartment), apartment.Owner.Name, apartment.Status.Id, apartment.City.Id,
+                apartment.Address, apartment.Name, apartment.NameEng, apartment.Price, apartment.MaxAdults, apartment.MaxChildren,
+                 apartment.TotalRooms, apartment.BeachDistance);
         }
-        return tagTypes;
-    }
 
-    public IList<User> GetUsers()
-    {
-        IList<User> users = new List<User>();
-
-        var tblusers = SqlHelper.ExecuteDataset(CS, nameof(GetUsers)).Tables[0];
-        foreach (DataRow row in tblusers.Rows)
+        public void SaveApartmentImages(ApartmentPicture apartmentpicture)
         {
-            users.Add(new User
-            {
-                Id = (int)row[nameof(User.Id)],
-                Guid = (Guid)row[nameof(User.Guid)],
-                CreatedAt = (DateTime)row[nameof(User.CreatedAt)],
-                //DeletedAt = (DateTime?)row[nameof(User.DeletedAt)],
-                Email = row[nameof(User.Email)].ToString(),
-                EmailConfirmed = (bool)row[nameof(User.EmailConfirmed)],
-                PasswordHash = row[nameof(User.PasswordHash)].ToString(),
-                SecurityStamp = row[nameof(User.SecurityStamp)].ToString(),
-                PhoneNumber = row[nameof(User.PhoneNumber)].ToString(),
-                //PhoneNumberConfirmed = (bool)row[nameof(User.PhoneNumberConfirmed)],
-                //LockoutEndDateUtc = (DateTime?)row[nameof(User.LockoutEndDateUtc)],
-                //LockoutEnabled = (bool)row[nameof(User.LockoutEnabled)],
-                //AccessFailedCount = (int)row[nameof(User.AccessFailedCount)],
-                UserName = row[nameof(User.UserName)].ToString(),
-                Address = row[nameof(User.Address)].ToString()
-
-            });
-
+            SqlHelper.ExecuteNonQuery(CS,nameof(SaveApartmentImages), apartmentpicture.ApartmentId, apartmentpicture.Path, apartmentpicture.Name);
         }
-        return users;
-    }
 
-    public void SaveApartment(Apartment apartment)
-    {
-        SqlHelper.ExecuteNonQuery(CS, nameof(SaveApartment), apartment.Owner.Name, apartment.Status.Id, apartment.City.Id,
-            apartment.Address, apartment.Name, apartment.NameEng, apartment.Price, apartment.MaxAdults, apartment.MaxChildren,
-             apartment.TotalRooms, apartment.BeachDistance);
-    }
+        public void SaveApartmentReservation(int idapartment, ApartmentReservation apartmentReservation)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(SaveApartmentReservation), idapartment, apartmentReservation.Details,
+           apartmentReservation.UserName, apartmentReservation.UserEmail, apartmentReservation.UserPhone, apartmentReservation.UserAddress);
+        }
 
-    public void SaveTag(Tag tag)
-    {
-        SqlHelper.ExecuteNonQuery(CS, nameof(SaveTag), tag.TypeId, tag.Name, tag.NameEng);
+        public void SaveTag(Tag tag)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(SaveTag), tag.TypeId, tag.Name, tag.NameEng);
+        }
+
+        public void UpdateApartment(Apartment apartment)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(UpdateApartment), apartment.Id, apartment.Owner.Name, apartment.Status.Id,
+                apartment.City.Id, apartment.Address, apartment.Name, apartment.NameEng, apartment.Price, apartment.MaxAdults,
+                apartment.MaxChildren, apartment.TotalRooms, apartment.BeachDistance);
+        }
     }
-}
 }
