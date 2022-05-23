@@ -48,7 +48,7 @@
         
                 <tr>
                     <td> 
-                        <%#Eval("isRepresentative") %>
+                       
                         <asp:Image ImageUrl="Images\slika.jpg" runat="server" 
                         class="img-fluid" width="100" height="80" style="" alt="Sample image"/></td>
                     <td><%#Eval("Name") %></td>

@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿
+using DAL;
 using DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,9 @@ namespace Apartmani
     public partial class ApartmentDetails : System.Web.UI.Page
     {
          private Apartment _apartment;
-        private IList<TaggedApartment> _apartmentTaggs;
+        private IList<Tag> _apartmentTaggs;
         private IList<ApartmentPicture> _pictures;
+        private int idApartment;
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -25,12 +27,11 @@ namespace Apartmani
             }
             try
             {
-                
-                
-                    int id = (int)Session["IdApartment"];
-                    _apartment = ((Irepo)Application["database"]).GetApartmentById(id);
-                _apartmentTaggs = ((Irepo)Application["database"]).GetTagsByApartment(id);
-                _pictures = ((Irepo)Application["database"]).GetApartmentPictures(id);
+
+                     idApartment = (int)Session["IdApartment"];
+                    _apartment = ((Irepo)Application["database"]).GetApartmentById(idApartment);
+                _apartmentTaggs = ((Irepo)Application["database"]).GetTagsByApartment(idApartment);
+                _pictures = ((Irepo)Application["database"]).GetApartmentPictures(idApartment);
 
 
 
@@ -45,8 +46,8 @@ namespace Apartmani
            
             if (!IsPostBack)
             {
-                AppendApartmentTaggs();
-
+                AppendApartmentTags();
+                AppendUnusedTags();
                 AppendStatus();
                 AppendCity();
                 AppendImages();
@@ -56,16 +57,26 @@ namespace Apartmani
 
         }
 
+        private void AppendUnusedTags()
+        {
+            ddlUnusedTags.DataSource = ((Irepo)Application["database"]).GetUnusedApartmentTag(idApartment);
+            ddlUnusedTags.DataValueField = "Id";
+            ddlUnusedTags.DataTextField = "Name";
+            ddlUnusedTags.DataBind();
+        }
+
         private void AppendImages()
         {
             RepeaterImages.DataSource = _pictures;
             RepeaterImages.DataBind();
         }
 
-        private void AppendApartmentTaggs()
+        private void AppendApartmentTags()
         {
-            RepeaterTags.DataSource=_apartmentTaggs;
-            RepeaterTags.DataBind();
+            ddlTags.DataSource = ((Irepo)Application["database"]).GetTagsByApartment(idApartment);
+            ddlTags.DataValueField = "Id";
+            ddlTags.DataTextField = "Name";
+            ddlTags.DataBind();
         }
 
         private void AppendStatus()
@@ -188,6 +199,8 @@ namespace Apartmani
                 try
                 {
                     ((Irepo)Application["database"]).SaveApartmentReservation(_apartment.Id, apartmentReservation);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesno dodan tag!', '', 'success')", true);
+                    PanelReservation.Visible = false;
                 }
                 catch (Exception)
                 {
@@ -196,11 +209,8 @@ namespace Apartmani
                 }
             }
             ClearForm();
-
-
-            
         }
-
+ 
         private void ClearForm()
         {
             txtReservationDetails.Text="";
@@ -239,6 +249,30 @@ namespace Apartmani
                 lblMsg.ForeColor = System.Drawing.Color.Green;
             }
             
+        }
+
+        protected void bntDeleteTag_click(object sender, EventArgs e)
+        {
+            int idTag = Convert.ToInt32(ddlTags.SelectedValue);
+            ((Irepo)Application["database"]).deleteApartmentTag(idApartment,idTag);
+
+            AppendApartmentTags();
+            AppendUnusedTags();
+        }
+
+        protected void btnAddTag_Click(object sender, EventArgs e)
+        {
+            int idTag = Convert.ToInt32(ddlUnusedTags.SelectedValue);
+
+            ((Irepo)Application["database"]).AddApartmentTag(idApartment, idTag);
+
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesno dodan tag!', '', 'success')", true);
+            
+            
+            AppendUnusedTags();
+            AppendApartmentTags();
+            
+
         }
     }
 }

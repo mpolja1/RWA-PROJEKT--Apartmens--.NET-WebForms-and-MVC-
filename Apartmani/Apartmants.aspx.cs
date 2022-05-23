@@ -199,8 +199,9 @@ namespace Apartmani
 
                     Apartment apartment = new Apartment(apartmentOwner, apartmantStatus, city, address, apartmentName, apartmentNameEng, price, maxAdults, maxChildren, totalRooms, beachDistance);
                     ((Irepo)Application["database"]).SaveApartment(apartment);
-                    Response.Redirect(Request.Url.LocalPath);
-                }
+
+                Response.Redirect(Request.Url.LocalPath);
+            }
 
             
 

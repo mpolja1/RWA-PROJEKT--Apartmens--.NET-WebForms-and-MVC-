@@ -2,51 +2,54 @@
 
 @{
     ViewBag.Title = "View";
+    
 }
-
+<head>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
 <h2>View</h2>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    </p>
 
-@foreach (var item in Model)
-{
+    @foreach (var item in Model)
+    {
 
-    if (item.Price > 0)
+        if (item.Price > 0)
         {
-        
-        <div class="col-md-4  col-lg-4" style="margin-bottom:10px">
-            <div class="card mb-2 table-bordered " style="border-radius:10%;padding:5px">
-                <h4 class="card-title text-center" style="margin:5px"> @item.Name </h4>
-                <hr />
-                <img src="https://www.apartmanija.hr/slike/apartments/Centar_Niko_21d4f3bc9976.jpg" class="rounded-circl" style="border-radius: 5%" width="250" height="200">
-                <div class="card-body " style="padding:10px">
+            <div class="col-md-4" style="margin-bottom:10px">
+                <div class="card mb-2 table-bordered " style="border-radius:10%;padding:5px">
+                    <h4 class="card-title text-center" style="margin:5px"> @item.Name </h4>
+                    <hr />
+                    <img src="https://www.apartmanija.hr/slike/apartments/Centar_Niko_21d4f3bc9976.jpg" class="img-fluid" style="border-radius: 5%" width="250" height="200">
+                    <div class="card-body " style="padding:10px">
 
-                    <p class="card-text">
+                        <p class="card-text">
 
-                    </p>
-                    <div class="col-sm-6">
-                        <span class="font-bold"><strong> @item.Price</strong></span>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-6 ">
-                                <button type="button" style="border-radius:10px"
-                                        class="btn btn-primary btn-sm btn-block "
-                                        id="addToCart-1" onclick="addToCart(1)">
-                                    <span class=""
-                                          aria-hidden="true"></span> DETAILS
-                                </button>
+                        </p>
+                        <div class="col-sm-6">
+                            <span class="font-bold"><strong> @item.Price</strong></span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <button type="button" style="border-radius:10px"
+                                            class="btn btn-primary btn-sm btn-block "
+                                            id="addToCart-1" onclick="addToCart(1)">
+                                        <span class=""
+                                              aria-hidden="true"></span> DETAILS
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     }
-}
-
+</body>
 
 @*@foreach (var item in Model) {
         <tr>

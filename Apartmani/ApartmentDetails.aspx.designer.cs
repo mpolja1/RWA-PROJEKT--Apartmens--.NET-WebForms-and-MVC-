@@ -195,15 +195,6 @@ namespace Apartmani
         protected global::System.Web.UI.WebControls.CompareValidator CompareValidator1;
 
         /// <summary>
-        /// lblStatusIZsessiona control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStatusIZsessiona;
-
-        /// <summary>
         /// btnEdit control.
         /// </summary>
         /// <remarks>
@@ -312,13 +303,40 @@ namespace Apartmani
         protected global::System.Web.UI.WebControls.TextBox txtBeachDistance;
 
         /// <summary>
-        /// RepeaterTags control.
+        /// ddlUnusedTags control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterTags;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUnusedTags;
+
+        /// <summary>
+        /// btnAddTag control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddTag;
+
+        /// <summary>
+        /// ddlTags control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTags;
+
+        /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
         /// RepeaterImages control.

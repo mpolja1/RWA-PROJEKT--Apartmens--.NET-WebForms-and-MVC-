@@ -10,11 +10,11 @@ namespace DAL.Models
     {
        
         public int Id { get; set; }
-        public Guid Guid { get; set; }
-        public DateTime DateTime { get; set; }
+        public Guid? Guid { get; set; }
+        public DateTime? DateTime { get; set; }
 
         public int? TagCount{ get; set; }
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
         public string Name { get; set; }
         public string NameEng { get; set; }
 
@@ -28,7 +28,13 @@ namespace DAL.Models
             Name = name;
             NameEng = nameEng;
         }
-       
 
+        public Tag(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+        public override string ToString()
+       => $"{Name}";
     }
 }

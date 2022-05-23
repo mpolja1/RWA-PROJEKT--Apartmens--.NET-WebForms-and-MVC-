@@ -11,7 +11,6 @@ namespace DAL.Models
         public int Id { get; set; }
         public Guid Guid { get; set; }
         public int ApartmentId { get; set; }
-        public string TagName { get; set; }
-
+        public Tag Tag { get; set; }
     }
 }

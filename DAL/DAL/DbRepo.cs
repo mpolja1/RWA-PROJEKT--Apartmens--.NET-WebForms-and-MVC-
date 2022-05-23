@@ -15,6 +15,10 @@ namespace DAL.DAL
     {
         private static string CS = ConfigurationManager.ConnectionStrings["cs"].ConnectionString;
 
+        public void AddApartmentTag(int idaparment, int idtag)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(AddApartmentTag), idaparment, idtag);
+        }
 
         public Employee AuthEmployee(string username, string password)
         {
@@ -33,6 +37,11 @@ namespace DAL.DAL
         public void DeleteApartmentSoft(int id)
         {
             SqlHelper.ExecuteNonQuery(CS, nameof(DeleteApartmentSoft), id);
+        }
+
+        public void deleteApartmentTag(int idaparment, int idtag)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(deleteApartmentTag), idaparment,idtag);
         }
 
         public void DeleteTag(int id)
@@ -262,18 +271,19 @@ namespace DAL.DAL
 
         }
 
-        public IList<TaggedApartment> GetTagsByApartment(int id)
+        public IList<Tag> GetTagsByApartment(int id)
         {
-            List<TaggedApartment> taggedApartments = new List<TaggedApartment>();
-            var tbltagged = SqlHelper.ExecuteDataset(CS, nameof(GetTagsByApartment),id).Tables[0];
+            List<Tag> taggedApartments = new List<Tag>();
+            var tbltagged = SqlHelper.ExecuteDataset(CS, nameof(GetTagsByApartment), id).Tables[0];
 
             foreach (DataRow row in tbltagged.Rows)
             {
-                taggedApartments.Add(new TaggedApartment
+                taggedApartments.Add(new Tag
                 {
-                    Id = (int)row[nameof(TaggedApartment.Id)],
-                    Guid = (Guid)row[nameof(TaggedApartment.Guid)],
-                    TagName = row[nameof(TaggedApartment.TagName)].ToString()
+                    Id = (int)row[nameof(Tag.Id)],
+                    Guid = (Guid)row[nameof(Tag.Guid)],
+                    Name = row[nameof(Tag.Name)].ToString(),
+                    
                 });
 
             }
@@ -299,6 +309,26 @@ namespace DAL.DAL
 
             }
             return tagTypes;
+        }
+
+        public IList<Tag> GetUnusedApartmentTag(int id)
+        {
+            IList<Tag> utags = new List<Tag>();
+
+            var tbltagged = SqlHelper.ExecuteDataset(CS, nameof(GetUnusedApartmentTag), id).Tables[0];
+
+            foreach (DataRow row in tbltagged.Rows)
+            {
+                utags.Add(new Tag
+                {
+                   Id= (int)row[nameof(Tag.Id)],
+                   Name = row[nameof(Tag.Name)].ToString()
+
+                }); 
+                
+            }
+
+            return utags;
         }
 
         public IList<User> GetUsers()

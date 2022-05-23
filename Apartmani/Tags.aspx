@@ -10,7 +10,7 @@
     <asp:Button ID="btnAdd" CssClass="btn btn-primary m-2" runat="server" Text="Add" OnClick="btnAdd_Click" />
     <asp:Panel ID="PanelAddTag" runat="server" Visible="false">
 
-        <div class="row mb-3 container ">
+        <div class="row  container ">
             <div class="col-12">
                 <asp:TextBox ID="txtName" class="form-control w-25" runat="server" placeholder="Name"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtName" ForeColor="Red" runat="server">*</asp:RequiredFieldValidator>

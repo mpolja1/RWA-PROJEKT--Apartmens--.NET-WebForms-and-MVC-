@@ -54,7 +54,8 @@ namespace Apartmani
             {
                 Tag tag = new Tag(typeId, name, nameEng);
                 ((Irepo)Application["database"]).SaveTag(tag);
-                    AppendTags();
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesno dodan tag!', '', 'success')", true);
+                AppendTags();
                 
                 
             }

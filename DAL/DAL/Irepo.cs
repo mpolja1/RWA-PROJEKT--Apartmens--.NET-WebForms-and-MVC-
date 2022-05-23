@@ -31,7 +31,13 @@ namespace DAL
 
         void SaveApartmentReservation(int idapartment, ApartmentReservation apartmentReservation);
 
-        IList<TaggedApartment> GetTagsByApartment(int id);
+        IList<Tag> GetTagsByApartment(int id);
+
+        IList<Tag> GetUnusedApartmentTag(int id);
+
+        void deleteApartmentTag(int idaparment, int idtag);
+
+        void AddApartmentTag(int idaparment, int idtag);
 
         void SaveApartmentImages(ApartmentPicture apartmentpicture);
         IList<ApartmentPicture> GetApartmentPictures(int id);
