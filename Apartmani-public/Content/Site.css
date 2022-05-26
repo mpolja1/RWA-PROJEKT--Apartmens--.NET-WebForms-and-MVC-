@@ -1,7 +1,13 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    background-color:blue;
+﻿*{
+    font-size:1.1em;
+    font-family:'Times New Roman', Times, serif;
+}
+
+body {
+   
+   /* background-color:blue;*/
+ 
+
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -18,17 +24,25 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
+}*/
+.btnrezerviraj {
+    border-radius: 10%;
 }
-.card {
-    background-color:red;
+footer{
+    color:white;
+    background-color:blue;
+    height:70px;
 }
-.nav-bar{
-   
+button {
+    
 }
-.mojnav {
-    background-color: white;
+.btn {
+    padding: 10px;
+}
+.title{
+    font-size:20px;
 }

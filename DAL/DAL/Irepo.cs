@@ -42,6 +42,9 @@ namespace DAL
         void SaveApartmentImages(ApartmentPicture apartmentpicture);
         IList<ApartmentPicture> GetApartmentPictures(int id);
 
+        User AuthUser(string email, string password);
+        void SaveUser(User user);
+
         //IList<Apartment> GetApartmentsByCity(int id);
 
     }

@@ -34,6 +34,24 @@ namespace DAL.DAL
             };
         }
 
+        public User AuthUser(string email, string password)
+        {
+            var tblUser = SqlHelper.ExecuteDataset(CS, nameof(AuthUser), email, password).Tables[0];
+            if (tblUser.Rows.Count == 0) return null;
+
+            DataRow row = tblUser.Rows[0];
+            return new User
+            {
+                Id = (int)row[nameof(User.Id)],
+                Guid = (Guid)row[nameof(User.Guid)],
+                CreatedAt = (DateTime)row[nameof(User.CreatedAt)],
+                Email = row[nameof(User.Email)].ToString(),
+                PasswordHash = row[nameof(User.PasswordHash)].ToString(),
+                UserName = row[nameof(User.UserName)].ToString(),
+                Address = row[nameof(User.Address)].ToString()
+            };
+        }
+
         public void DeleteApartmentSoft(int id)
         {
             SqlHelper.ExecuteNonQuery(CS, nameof(DeleteApartmentSoft), id);
@@ -383,6 +401,11 @@ namespace DAL.DAL
         public void SaveTag(Tag tag)
         {
             SqlHelper.ExecuteNonQuery(CS, nameof(SaveTag), tag.TypeId, tag.Name, tag.NameEng);
+        }
+
+        public void SaveUser(User user)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(SaveUser), user.Email, user.PasswordHash, user.PhoneNumber, user.UserName, user.Address);
         }
 
         public void UpdateApartment(Apartment apartment)
