@@ -15,6 +15,8 @@ namespace Apartmani_publicccc.Controllers
         public Irepo repo = RepoFactory.GetRepository();
         public ActionResult Index()
         {
+        
+
             return View();
         }
         public ActionResult LogIn()

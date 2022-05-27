@@ -13,11 +13,16 @@ namespace Apartmani_publicccc.Controllers
     {
         // GET: Apartment
         Irepo repo = RepoFactory.GetRepository();
-        public ActionResult Index()
+        public ActionResult Index(string search,int? id)
         {
+            List<SelectListItem> list = new List<SelectListItem>()
+            {new SelectListItem{Text="Price",Value="Price"},
+               new SelectListItem{Text="Id",Value="Id"} };
+            ViewBag.list = list;
 
             return View(repo.GetApartments());
         }
+       
 
         public ActionResult Details(int? id)
         {
@@ -25,5 +30,6 @@ namespace Apartmani_publicccc.Controllers
             
             return View(apartment);
         }
+        
     }
 }
