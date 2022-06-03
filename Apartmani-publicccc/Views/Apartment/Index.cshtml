@@ -2,48 +2,49 @@
 
 @{
     ViewBag.Title = "Index";
+    List<SelectListItem> itemsToSort = ViewBag.listToSort as List<SelectListItem>;
 }
 
+@using (Html.BeginForm())
+{
 
 <div class="container-fluid ">
     <div class="form-group">
-        <label>Rooms</label>
-        <input type="text" id="Room" name="Room" value="" />
+        @Html.Label(expression: "Room", labelText: "Room")
+        <input type="number" id="Room" name="Room" value="" />
     </div>
     <div class="form-group">
-        <label>Adults</label>
-        <input type="text" id="Adult" name="Adult" value="" />
+        @Html.Label(expression: "Adult", labelText: "Adults")
+        <input type="number" id="Adult" name="Adult" value="" />
     </div>
     <div class="form-group">
         <div class="row">
             <div class="col-md-10 ">
-                <label>Children</label>
-                <input type="text" id="Children" name="Children" value="" />
+                @Html.Label(expression: "Children", labelText: "Children")
+                <input type="number" id="Children" name="Children" value="" />
                 <button type="submit" class="btn btn-primary">Go</button>
             </div>
             <div class="col-md-2">
-                <div>
-                    <label>sort</label> 
+                <div class="form-group">
+                    @Html.Label(expression: "sort", labelText: "Sorty by")
+                    @Html.DropDownList(name: "sort", optionLabel: "---Choose---", selectList: itemsToSort, htmlAttributes: new { @class = "form-control" })
+                    <input type="submit" />
                 </div>
             </div>
         </div>
     </div>
 </div>
 <hr />
-
+}
 
 @foreach (var apartmet in Model)
 {
 
-    if (apartmet.Price > 0)
-    {
-
-
-
-    <div class="content col-md-3"style="margin-bottom:60px; ">
+    <div class="col-md-3"style="margin-bottom:60px; ">
         <div class="card mb-2 table-bordered " style="border-radius: 10%; padding: 5px">
             <h4 class="card-title text-left" style="margin:5px"> @apartmet.Name </h4>
             <hr />
+            
             <div class="row">
                 <div class="col-md-7">
                     <img src="https://www.apartmanija.hr/slike/apartments/Centar_Niko_21d4f3bc9976.jpg" class="img-fluid" style="border-radius: 5%" width="230" height="200">
@@ -79,5 +80,5 @@
 
     </div>
 
-    }
+    
 }

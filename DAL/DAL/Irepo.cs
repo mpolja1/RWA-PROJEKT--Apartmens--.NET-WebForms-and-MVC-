@@ -45,6 +45,8 @@ namespace DAL
         User AuthUser(string email, string password);
         void SaveUser(User user);
 
+        List<Apartment> SearchAparments(ApartmenSearchModel searchModel);
+
         //IList<Apartment> GetApartmentsByCity(int id);
 
     }

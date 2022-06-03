@@ -408,6 +408,45 @@ namespace DAL.DAL
             SqlHelper.ExecuteNonQuery(CS, nameof(SaveUser), user.Email, user.PasswordHash, user.PhoneNumber, user.UserName, user.Address);
         }
 
+        public List<Apartment> SearchAparments(ApartmenSearchModel searchModel)
+        {
+            var apartments = GetApartments();
+
+            if (searchModel != null)
+            {
+                if (searchModel.Room.HasValue)
+                {
+                    apartments = apartments.Where(x => x.TotalRooms == searchModel.Room).ToList();
+                }
+                if (searchModel.Adult.HasValue)
+                {
+                    apartments = (List<Apartment>)apartments.Where(x => x.MaxAdults == searchModel.Adult).ToList();
+                }
+                if (searchModel.Children.HasValue)
+                {
+                    apartments = (List<Apartment>)apartments.Where(x => x.MaxChildren == searchModel.Children).ToList();
+                }
+                if (!string.IsNullOrEmpty(searchModel.Sort))
+                {
+                    switch (searchModel.Sort)
+                    {
+                        case "Desc":
+                            apartments.Sort((x, y) => -x.Price.CompareTo(y.Price));
+                            break;
+                        case "Asc":
+                            apartments.Sort((x, y) => x.Price.CompareTo(y.Price));
+                            break;
+                        default:
+                            apartments.Sort((x, y) => x.Name.CompareTo(y.Name));
+                            break;
+                    }
+                }
+            }
+
+
+            return apartments;
+        }
+
         public void UpdateApartment(Apartment apartment)
         {
             SqlHelper.ExecuteNonQuery(CS, nameof(UpdateApartment), apartment.Id, apartment.Owner.Name, apartment.Status.Id,
