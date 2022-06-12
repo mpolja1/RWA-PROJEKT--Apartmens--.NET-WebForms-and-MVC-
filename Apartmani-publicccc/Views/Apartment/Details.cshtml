@@ -1,106 +1,108 @@
-﻿@model DAL.Models.Apartment
+﻿@model  Apartmani_publicccc.Models.ApartmentDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Apartment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Guid)
-        </dt>
+<div class="container-fluid">
+    <div>
+        <h2 style="margin-left:10px">@Model.apartment.Name</h2>
+        <div class="col-md-2">
+            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/311687198.jpg?k=a07e60b1a3d5e656cc6915ef6448450e183a905f13c03cf0138368276f9a31a8&o=&hp=1" width="250" height="250" alt="Alternate Text" />
+            <p style="font-weight:bold">@Model.apartment.Price $</p>
 
-        <dd>
-            @Html.DisplayFor(model => model.Guid)
-        </dd>
+            <div class="col-md-offset--12">
+                @foreach (var tag in Model.Tags)
+                {
+                    <ul>
+                        <li>@tag.Name</li>
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="col-md-2 gap-3 ">
+            <ul style="padding:30px;font-weight:bold;">
+                <li>@Model.apartment.City</li>
+                <li>@Model.apartment.BeachDistance m from beach</li>
+                <li>@Model.apartment.TotalRooms rooms</li>
+                <li>@Model.apartment.MaxChildren children</li>
+                <li>@Model.apartment.Owner.Name</li>
+             
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
+            </ul>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
+        <div class="col-md-3">
+            <form>
+                <div class="form-group row">
+                    <div class=" col-xs-6">
+                        <label for="inputEmail4">Name</label>
+                        <input type="text" class="form-control" name="email" id="inputEmail" placeholder="First and last name">
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email">
 
-        <dd>
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone/mobile</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="">
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-8">
+                        <label for="inputCity">Adults</label>
+                        <input type="number" name="adults" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="children">Children</label>
+                        <input type="number" name="children" class="form-control" />
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label for="from">From</label>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                    <div class="col-sm-6">
+                        <input type="date" name="from" class="form-control" />
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NameEng)
-        </dt>
+                        <label for="To">To</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="date" name="To" class="form-control" />
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameEng)
-        </dd>
+                </div>
+                <button class="btn btn-primary">Reservation</button>
+            </form>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxAdults)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaxAdults)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxChildren)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaxChildren)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalRooms)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TotalRooms)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BeachDistance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BeachDistance)
-        </dd>
-
-    </dl>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="gallery">
+    <div class="col">
+        @foreach (var image in Model.Images)
+        {
+            <div class="col-md-2">
+                <img src="@image.Path" width="300" alt="@image.Name" />
+            </div>
+        }
+    </div>
+</div>
+<div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.apartment.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

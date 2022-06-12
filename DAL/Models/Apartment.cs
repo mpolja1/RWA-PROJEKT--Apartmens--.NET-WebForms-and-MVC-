@@ -25,7 +25,8 @@ namespace DAL.Models
         public int MaxChildren { get; set; }
         public int TotalRooms { get; set; }
         public int BeachDistance { get; set; }
-        public List<TaggedApartment> TaggedApartments { get; set; }
+        public int AvgStars { get; set; }
+        public List<ApartmentPicture> apartmentPictures { get; set; }
 
         public Apartment()
         {

@@ -23,43 +23,49 @@
                 </a>
 
 
-                <a class="navbar-brand" href="#">Rwa Apartments</a>
+                <a class="navbar-brand" href="#">@Apartmani_publicccc.Resources.Language.Rwa_Apartments</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Search", "Index", controllerName: "Apartment")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", controllerName: "Home")</li>
-                    <li>@Html.ActionLink("About Us", "About", controllerName: "Home")</li>
+                    <li style="margin-top:8px;">
+                        <form class="form-inline">
+                        <input class="form-control mr-sm-2" name="Search" type="search" placeholder="@Apartmani_publicccc.Resources.Language.Search" aria-label="Search">
+                        <button class="btn btn-success my-1 my-sm-0" style="margin-bottom:5px;" type="submit">@Apartmani_publicccc.Resources.Language.Search</button>
+                    </form>
+                    </li>
+                    <li>@Html.ActionLink(Apartmani_publicccc.Resources.Language.Contact, "Contact", controllerName: "Apartment")</li>
+                    <li>@Html.ActionLink(Apartmani_publicccc.Resources.Language.About_Us, "AboutUs", controllerName: "Apartment")</li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (Session["username"] != null)
                     {
-                        <li>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Language
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <ul>
-                                        <li>@Html.ActionLink("English","Change","Account")</li>
-                                        <li>@Html.ActionLink("Croatian","Change","Account")</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
 
-                        <li style="padding:5px">@Session["username"]</li>
+
+                        <li style="margin-top:16px">@Session["username"]</li>
                         <li>
-                            <button class="btn btn-danger"> @Html.ActionLink("Logout", actionName: "Logout", controllerName: "Account")</button>
+                            @Html.ActionLink(Apartmani_publicccc.Resources.Language.Logout, "Logout", "Account", htmlAttributes: new { @class = "btn" })
                         </li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Log in", "LogIn", controllerName: "Account")</li>
-                        <li>@Html.ActionLink("Registration", "Registration", controllerName: "Account")</li>
+                        <li>
+                            <div class="dropdown" style="margin-top:8px;">
+                                <button class="btn bg-transparent dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-globe"></span>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <ul style="list-style-type:none">
+                                        <li>@Html.ActionLink("English", "Language", "Account", new { language = "en" }, null)</li>
+                                        <li>@Html.ActionLink("Croatian", "Language", "Account", new { language = "hr" }, null)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>@Html.ActionLink(@Apartmani_publicccc.Resources.Language.Login, "LogIn", controllerName: "Account")</li>
+                        <li>@Html.ActionLink(@Apartmani_publicccc.Resources.Language.Registration, "Registration", controllerName: "Account")</li>
                     }
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -68,9 +74,9 @@
     <div class="body-content">
         @RenderBody()
         <hr />
-        <footer class="navbar-fixed-bottom text-center ">
+        @*<footer class="navbar-fixed-bottom text-center ">
             <p class="text-white">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        </footer>*@
     </div>
 
     @Scripts.Render("~/bundles/jquery")

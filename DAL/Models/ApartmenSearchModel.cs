@@ -13,5 +13,8 @@ namespace DAL.Models
         public int? Children { get; set; }
 
         public string Sort { get; set; }
+        public int? City { get; set; }
+
+        public string Search { get; set; }
     }
 }

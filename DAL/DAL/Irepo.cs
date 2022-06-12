@@ -49,5 +49,7 @@ namespace DAL
 
         //IList<Apartment> GetApartmentsByCity(int id);
 
+        int GetAvgStarsReview(int id);
+
     }
 }

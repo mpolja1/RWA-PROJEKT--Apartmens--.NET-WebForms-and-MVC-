@@ -192,9 +192,11 @@ namespace DAL.DAL
                     MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
                     MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
                     TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
-                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
+                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)],
+                    apartmentPictures = GetApartmentPictures((int)row[nameof(Apartment.Id)]).ToList(),
+                    AvgStars = GetAvgStarsReview((int)row[nameof(Apartment.Id)])
 
-                });
+                }) ;
             }
             return apartments;
         }
@@ -251,6 +253,28 @@ namespace DAL.DAL
               );
             }
             return status;
+        }
+
+        public int GetAvgStarsReview(int id)
+        {
+
+            using (SqlConnection conn = new SqlConnection(CS))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAvgStarsReview", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("id", SqlDbType.Int).Value=id;
+                int stars = (int)cmd.ExecuteScalar();
+
+                
+                    return (int)stars;
+               
+            }
+
+           
+                
+
+
         }
 
         public List<City> GetCities()
@@ -411,9 +435,11 @@ namespace DAL.DAL
         public List<Apartment> SearchAparments(ApartmenSearchModel searchModel)
         {
             var apartments = GetApartments();
+            
 
             if (searchModel != null)
             {
+                
                 if (searchModel.Room.HasValue)
                 {
                     apartments = apartments.Where(x => x.TotalRooms == searchModel.Room).ToList();
@@ -441,6 +467,15 @@ namespace DAL.DAL
                             break;
                     }
                 }
+                if (searchModel.City.HasValue)
+                {
+                    apartments = apartments.Where(x => x.City.Id == searchModel.City).ToList();
+                }
+                if (!string.IsNullOrEmpty(searchModel.Search))
+                {
+                    apartments = apartments.Where(x =>x.Name.ToLower().Contains(searchModel.Search.ToLower()) || x.City.Name.ToLower().Contains(searchModel.Search.ToLower())).ToList();
+                }
+
             }
 
 

@@ -32,10 +32,23 @@ li{
 /*.btn-danger{
     margin-top:10px;
 }*/
-.navbar-right{
+/*.navbar-right{
     margin-top:10px;
-}
+}*/
 footer{
    padding:10px;
     background-color:grey;     
+}
+.glyphicon-star{
+    color:orange;
+}
+img:hover{
+    cursor:pointer;
+}
+.glyphicon-star-empty{
+    color:black;
+}
+.form-control{
+    width:250px;
+    margin-bottom:10px;
 }

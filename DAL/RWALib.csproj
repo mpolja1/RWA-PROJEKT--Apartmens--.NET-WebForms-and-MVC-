@@ -55,6 +55,7 @@
     <Compile Include="Models\ApartmentOwner.cs" />
     <Compile Include="Models\ApartmentPicture.cs" />
     <Compile Include="Models\ApartmentReservation.cs" />
+    <Compile Include="Models\ApartmentReview.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Tag.cs" />
