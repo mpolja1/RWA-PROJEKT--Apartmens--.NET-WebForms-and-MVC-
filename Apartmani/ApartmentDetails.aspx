@@ -4,12 +4,12 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
-    
-    
+
+
     <link href="style/MyStyle.css" rel="stylesheet" />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <asp:Panel ID="PanelEditApartment" runat="server">
-
+        
         <div class="container-fluid">
             <div class="row col-md-12">
                 <div class="col-sm-3">
@@ -56,7 +56,7 @@
                         <asp:CompareValidator ID="CompareValidator1" Operator="DataTypeCheck" runat="server" Type="Double" ControlToValidate="txtPrice" ForeColor="Red">*</asp:CompareValidator>
                     </div>
 
-                    
+
                     <div class="row my-2">
                         <div class="btn-group">
                             <div class="me-4">
@@ -130,28 +130,47 @@
                     <h1>Images</h1>
                     <asp:Repeater ID="RepeaterImages" runat="server">
                         <ItemTemplate>
-                            <asp:Image ImageUrl='<%#Eval("Path")%>' CssClass="img-fluid p-1" Width="180" Height="70" AlternateText='<%#Eval("Name")%>' runat="server" />
-
+                            <asp:Image ImageUrl='<%#Eval("Path")%>' CssClass="img-fluid p-1" Width="180" Height="120" AlternateText='<%#Eval("Name")%>' runat="server" />
+                            <asp:CheckBox ID="checkboxvalues" runat="server" CommandArgument='<%#Eval("Id")%>'  Checked='<%#Eval("isRepresentative") %>'/>
 
                         </ItemTemplate>
                     </asp:Repeater>
-                    <div class="border my-2">
+                   
+
+                    <div class="col-sm-7">
+                        <div>
+                              
+                            <div class="row">
+                                <div class="col">
+                                    <asp:Button ID="bntDeleteImages" OnClick="btnDeleteImage_Click" runat="server" CssClass="btn btn-danger mb-1" Text="Delete selected" />
+                                </div>
+                                <div class="col">
+                                    <asp:Button ID="btnSetRepresentativeImages" OnClick="btnSetRepresentative_Click" runat="server" CssClass="btn btn-primary" Text="Set representative" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class=" my-2">
                         <div class="p-2">
                             <asp:Label ID="lblImageName" runat="server" Text="Title"></asp:Label>
                             <asp:TextBox ID="txtImageName" placeholder="Image title" runat="server"></asp:TextBox>
 
                         </div>
 
-                        <div >
+                        <div>
                             <asp:Label ID="Label7" runat="server" Text="Upload File:"></asp:Label>
-                            <asp:FileUpload ID="ImageUpload" runat="server" accept=".png,.jpg,.jpeg" />
+                            <asp:FileUpload ID="ImageUpload" runat="server" accept=".png,.jpg,.jpeg" AllowMultiple="true" />
                             <div class="p-2">
                                 <asp:Button ID="btnUpload" OnClick="btnUpload_Click" runat="server" CssClass="btn btn-primary" Text="Upload" />
                                 <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
+
 
             </div>
         </div>

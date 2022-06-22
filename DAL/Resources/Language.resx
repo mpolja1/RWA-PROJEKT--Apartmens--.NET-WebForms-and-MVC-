@@ -118,60 +118,81 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About Us" xml:space="preserve">
-    <value>O nama</value>
+    <value>About Us</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
   </data>
   <data name="Adults" xml:space="preserve">
-    <value>Odrasli</value>
+    <value>Adults</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
   </data>
   <data name="Children" xml:space="preserve">
-    <value>Djeca</value>
+    <value>Children</value>
   </data>
   <data name="Childrens" xml:space="preserve">
-    <value>djece</value>
+    <value>childrens</value>
   </data>
   <data name="Contact" xml:space="preserve">
-    <value>Kontakt</value>
+    <value>Contact</value>
   </data>
   <data name="Croatian" xml:space="preserve">
-    <value>Hrvatski</value>
+    <value>Croatian</value>
   </data>
   <data name="Destination" xml:space="preserve">
-    <value>Odredište</value>
+    <value>Destination</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>Engleski</value>
+    <value>English</value>
   </data>
   <data name="From_Beach" xml:space="preserve">
-    <value>od plaže</value>
+    <value>from beach</value>
   </data>
   <data name="Lang" xml:space="preserve">
-    <value>Jezik</value>
+    <value>Lang</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Prijava</value>
+    <value>Login</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Odjava</value>
+    <value>Logout</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>PhoneNumber</value>
   </data>
   <data name="Registration" xml:space="preserve">
-    <value>Registracija</value>
+    <value>Registration</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Required field</value>
   </data>
   <data name="Reservation" xml:space="preserve">
-    <value>Rezerviraj</value>
+    <value>Reservation</value>
   </data>
   <data name="Room" xml:space="preserve">
-    <value>Soba</value>
+    <value>Room</value>
   </data>
   <data name="Rwa Apartments" xml:space="preserve">
-    <value>Rwa Apartmani</value>
+    <value>Rwa Apartments</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Traži</value>
+    <value>Search</value>
   </data>
   <data name="Select" xml:space="preserve">
-    <value>Odaberite</value>
+    <value>Select</value>
   </data>
   <data name="Sort By" xml:space="preserve">
-    <value>Sortiraj </value>
+    <value>Sort By</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>UserName</value>
+  </data>
+  <data name="WrongPasswordEmail" xml:space="preserve">
+    <value>Wrong password or email</value>
   </data>
 </root>

@@ -7,12 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CaptchaMvc.HtmlHelpers;
+
 
 namespace Apartmani_publicccc.Controllers
 {
+   
     public class ApartmentController : Controller
     {
-        
+
         Irepo repo = RepoFactory.GetRepository();
         public ActionResult Index(ApartmenSearchModel searchModel)
         {
@@ -21,7 +24,18 @@ namespace Apartmani_publicccc.Controllers
                new SelectListItem{Text="Price-Najmanja/Najveca",Value="Asc"} };
             ViewBag.listToSort = list;
 
-            ViewBag.city = new SelectList(repo.GetCities(),"Id", "Name");
+            ViewBag.city = new SelectList(repo.GetCities(), "Id", "Name");
+
+            HttpCookie filter = new HttpCookie("filter");
+
+            filter.Values.Add("room", searchModel.Room.ToString());
+            filter.Values.Add("adult", searchModel.Room.ToString());
+            filter.Values.Add("children", searchModel.Children.ToString());
+
+
+            //filter.Expires.AddMinutes(1);
+
+            Response.Cookies.Add(filter);
 
             var model = repo.SearchAparments(searchModel);
 
@@ -29,19 +43,51 @@ namespace Apartmani_publicccc.Controllers
         }
 
 
+        [HttpGet]
         public ActionResult Details(int id)
         {
-
             var model = new ApartmentDetailsViewModel
             {
                 apartment = repo.GetApartmentById(id),
                 Tags = repo.GetTagsByApartment(id),
-                Images = repo.GetApartmentPictures(id)
+                Images = repo.GetApartmentPictures(id),
 
             };
 
+
+            if (Session["UserId"] != null)
+            {
+                int userId = int.Parse((string)Session["Userid"]);
+                model.User = repo.GetUserById(userId);
+            }
+
+
+
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Reservation(ApartmentReservation reservation)
+        {
+
+
+
+            if (!this.IsCaptchaValid(""))
+            {
+                ViewBag.error = "Neuspjesno";
+
+                return Redirect(Request.UrlReferrer.ToString());
+
+            }
+            else
+            {
+                ViewBag.uspjesno = "Rezervacija uspjesno spremljena";
+                repo.SaveApartmentReservation(reservation);
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+        }
+
         public ActionResult AboutUs()
         {
             return View();
@@ -51,14 +97,37 @@ namespace Apartmani_publicccc.Controllers
 
             return View();
         }
-        public ActionResult probinjo()
+
+        public ActionResult UserReservation(int id)
         {
+            var reservation = repo.GetUserReservation(id);
+            List<Apartment> apartmani = new List<Apartment>();
+            foreach (var item in reservation)
+            {
+               apartmani.Add(repo.GetApartmentById(item.ApartmentId));
+               
+            }
+            
 
-            var model = repo.GetApartments();
 
-            return View(model);
+            return View(apartmani);
         }
 
+        [HttpGet]
+        public ActionResult Review(int id)
+        {
+            Session["apartmenId"] = id;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Review(ApartmentReview apartmentReview)
+        {
+            
+            repo.SetApartmentReview(apartmentReview);
+            ViewBag.msg = "Uspjesna recenzija";
+           
+            return View();
+        }
 
     }
 }

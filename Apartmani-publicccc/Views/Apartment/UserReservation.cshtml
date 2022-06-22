@@ -1,0 +1,74 @@
+﻿@model IEnumerable<DAL.Models.Apartment>
+
+@{
+    ViewBag.Title = "Reservation";
+}
+
+<h2>My Reservation</h2>
+
+
+<table class="table">
+    <tr>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameEng)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxAdults)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxChildren)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalRooms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BeachDistance)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr> 
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameEng)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxAdults)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxChildren)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalRooms)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BeachDistance)
+        </td>
+
+        <td>
+            @Html.ActionLink("Review", "Review", new { id=item.Id }, new {@class="btn btn-primary"}) 
+           
+        </td>
+    </tr>
+}
+
+</table>

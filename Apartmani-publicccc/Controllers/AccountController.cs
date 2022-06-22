@@ -1,50 +1,83 @@
-﻿using DAL;
+﻿using Apartmani_publicccc.Models.Auth;
+using DAL;
 using DAL.DAL;
 using DAL.Models;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Apartmani_publicccc.Controllers
 {
- 
+
     public class AccountController : Controller
     {
         public Irepo repo = RepoFactory.GetRepository();
-        public ActionResult Index()
-        {
+        private UserManager _authManager;
+        private SignInManager _signInManager;
 
-            return View();
+        public SignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<SignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;    
+            }
         }
+        public UserManager AuthManager
+        {
+            get
+            {
+                return _authManager ?? HttpContext.GetOwinContext().Get<UserManager>();
+            }
+            private set
+            {
+                _authManager = value;
+            }
+        }
+
         public ActionResult LogIn()
         {
-            
             return View();
         }
-      
+
         [HttpPost]
-        public ActionResult LogIn(User user)
+        public async Task<ActionResult> LogIn(User user)
         {
-           
-            if (!ModelState.IsValid)
+
+            //if (!ModelState.IsValid)
+            //{
+
+            //    return View(user);
+
+            //}
+            var authuser = repo.AuthUser(user.Email, user.PasswordHash);
+            if (authuser != null)
             {
-                User authUser = repo.AuthUser(user.Email, user.PasswordHash);
-                if (authUser != null)
-                {
-                    
-                    Session["username"] = authUser.UserName;
-                    return RedirectToAction("Index", controllerName: "Apartment");
-                }
-                else
-                {
-                    ViewBag.Notification = "Wrong password or email";
-                }
+                Session["username"] = authuser.UserName;
+                Session["UserId"] = authuser.Id;
+                return RedirectToAction("Index", "Apartment");
             }
 
+                //var authUser = await AuthManager.FindAsync(user.Email, user.PasswordHash);
+                //if (authUser != null)
+                //{
+                //  await  SignInManager.SignInAsync(user, true, false);
+                //    return RedirectToAction("Index", controllerName: "Apartment");
+                //}
+                else
+                {
+                    ViewBag.Notification = DAL.Resources.Language.WrongPasswordEmail;
+                }
+ 
             return View();
         }
 
@@ -61,6 +94,8 @@ namespace Apartmani_publicccc.Controllers
             if (ModelState.IsValid)
             {
                 repo.SaveUser(user);
+                TempData["AlertMsg"] = "Uspjesna registracija";
+                return RedirectToAction("Index", "Apartment");
             }
             return View();
         }

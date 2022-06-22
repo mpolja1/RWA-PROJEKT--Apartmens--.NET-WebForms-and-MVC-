@@ -17,6 +17,8 @@ namespace Apartmani
         private IList<Tag> _apartmentTaggs;
         private IList<ApartmentPicture> _pictures;
         private int idApartment;
+        private readonly string _picPath = "~/Images/";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -52,7 +54,7 @@ namespace Apartmani
                 AppendCity();
                 AppendImages();
                 AppendApartment();
-                DoReadOnly(this.PanelEditApartment);
+                //DoReadOnly(this.PanelEditApartment);
             }         
 
         }
@@ -78,6 +80,7 @@ namespace Apartmani
             ddlTags.DataTextField = "Name";
             ddlTags.DataBind();
         }
+      
 
         private void AppendStatus()
         {
@@ -124,8 +127,8 @@ namespace Apartmani
 
         protected void btnEdit_Click(object sender, EventArgs e)
         {
-            DoReadOnly(this.PanelEditApartment);
-            btnEdit.Text = btnEdit.Text== "Save" ? "Edit" : "Save";
+            //DoReadOnly(this.PanelEditApartment);
+            //btnEdit.Text = btnEdit.Text== "Save" ? "Edit" : "Save";
             
 
             ApartmentOwner apartmentOwner = new ApartmentOwner();
@@ -153,33 +156,33 @@ namespace Apartmani
             
         }
         
-        void DoReadOnly(Control control)
-        {
+        //void DoReadOnly(Control control)
+        //{
             
-            foreach (Control c in control.Controls)
-            {
-                if (c.Controls != null && c.Controls.Count > 0)
-                {
-                    DoReadOnly(c);
-                }
-                else if (c is TextBox )
-                {
-                    if ((c as TextBox).ReadOnly==false )
-                    {
-                        (c as TextBox).ReadOnly = true;
+        //    foreach (Control c in control.Controls)
+        //    {
+        //        if (c.Controls != null && c.Controls.Count > 0)
+        //        {
+        //            DoReadOnly(c);
+        //        }
+        //        else if (c is TextBox )
+        //        {
+        //            if ((c as TextBox).ReadOnly==false )
+        //            {
+        //                (c as TextBox).ReadOnly = true;
                        
 
 
-                    }
-                    else
-                    {
-                        (c as TextBox).ReadOnly=false;
+        //            }
+        //            else
+        //            {
+        //                (c as TextBox).ReadOnly=false;
                        
-                    }
-                }
+        //            }
+        //        }
                 
-            }
-        }
+        //    }
+        //}
 
         protected void btnAddReservation_Click(object sender, EventArgs e)
         {
@@ -193,13 +196,13 @@ namespace Apartmani
                 string userPhone = txtReservationUserPhone.Text;
                 string userAdress = txtReservationUserAdress.Text;
 
-                ApartmentReservation apartmentReservation = new ApartmentReservation(details, userName, userEmail, userPhone, userAdress);
+                ApartmentReservation apartmentReservation = new ApartmentReservation(details, userName, userEmail, userPhone, userAdress, _apartment.Id);
 
 
                 try
                 {
-                    ((Irepo)Application["database"]).SaveApartmentReservation(_apartment.Id, apartmentReservation);
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesno dodan tag!', '', 'success')", true);
+                    ((Irepo)Application["database"]).SaveApartmentReservation(apartmentReservation);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesna rezervacija!', '', 'success')", true);
                     PanelReservation.Visible = false;
                 }
                 catch (Exception)
@@ -223,24 +226,28 @@ namespace Apartmani
 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
-         
+
             if (ImageUpload.HasFile)
             {
-                
-                string imgfile= Path.GetFileName(ImageUpload.FileName);
-                string path = Path.Combine(Server.MapPath("Images/"), imgfile);
-                ImageUpload.SaveAs(path);
-                string databasePath = "~/Images/" + imgfile;
-     
 
-                   
+                string imgfile= Path.GetFileName(ImageUpload.FileName);
+                var rootImages = Server.MapPath(_picPath);
+                if (!Directory.Exists(rootImages))
+                {
+                    Directory.CreateDirectory(rootImages);
+                }
+                string path = Path.Combine(rootImages, imgfile);
+                ImageUpload.SaveAs(path);
+                string databasePath = _picPath + imgfile;
+
                     int idApart = (int)Session["IdApartment"];
                     string title = txtImageName.Text;
                     ApartmentPicture apartmentPicture = new ApartmentPicture(idApart, databasePath, title);
                     ((Irepo)Application["database"]).SaveApartmentImages(apartmentPicture);
                 lblMsg.Text = "Uspjesno spremljeno";
                 lblMsg.ForeColor = System.Drawing.Color.Green;
-
+                AppendImages();
+                Page.Response.Redirect(Page.Request.Url.ToString(), true);
 
             }
             else
@@ -248,7 +255,15 @@ namespace Apartmani
                 lblMsg.Text = "Greska";
                 lblMsg.ForeColor = System.Drawing.Color.Green;
             }
-            
+            //if (ImageUpload.HasFile)
+            //{
+            //    var imageroot = Server.MapPath(_picPath);
+            //    if (!Directory.Exists(imageroot))
+            //        Directory.CreateDirectory(imageroot);
+            //    var imagePath = Path.Combine(imageroot, Path.GetFileName(ImageUpload.FileName));
+            //    ImageUpload.SaveAs(imagePath);
+            //}
+
         }
 
         protected void bntDeleteTag_click(object sender, EventArgs e)
@@ -272,6 +287,60 @@ namespace Apartmani
             AppendUnusedTags();
             AppendApartmentTags();
             
+
+        }
+        
+
+        protected void btnDeleteImage_Click(object sender, EventArgs e)
+        {
+           
+            foreach (RepeaterItem item in RepeaterImages.Items)
+            {
+
+                CheckBox ch = item.FindControl("checkboxvalues") as CheckBox;
+              int idpicture = int.Parse(ch.Attributes["CommandArgument"]);
+                if (ch.Checked)
+                {
+                    try
+                    {
+                        ((Irepo)Application["database"]).DeleteApartmentPicture(idpicture);
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesno brisanje slika!', '', 'success')", true);
+                    }
+                    catch (Exception )
+                    {
+
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Greska', '', 'error')", true);
+                    }
+                    
+                }
+            }
+            //AppendImages();
+            //Page.Response.Redirect(Page.Request.Url.ToString(), true);
+
+
+
+
+        }
+
+        protected void btnSetRepresentative_Click(object sender, EventArgs e)
+        {
+
+            foreach (RepeaterItem item in RepeaterImages.Items)
+            {
+
+
+                CheckBox ch = item.FindControl("checkboxvalues") as CheckBox;
+                if (ch.Checked)
+                {
+                    int idapartmentpicture = int.Parse(ch.Attributes["CommandArgument"]);
+                    ((Irepo)Application["database"]).SetRepresentativePicture(idapartmentpicture);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "k", "swal('Uspjesno postavljena reprezentativna slika!', '', 'success')", true);
+                }
+
+                
+            }
+            //AppendImages();
+            //Page.Response.Redirect(Page.Request.Url.ToString(), true);
 
         }
     }

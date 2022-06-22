@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public interface Irepo
+    public  interface Irepo
     {
         Employee AuthEmployee(string username, string password);
         List<City> GetCities();
@@ -29,7 +29,7 @@ namespace DAL
         void UpdateApartment(Apartment apartment);
         Apartment GetApartmentById(int id);
 
-        void SaveApartmentReservation(int idapartment, ApartmentReservation apartmentReservation);
+        void SaveApartmentReservation(ApartmentReservation apartmentReservation);
 
         IList<Tag> GetTagsByApartment(int id);
 
@@ -45,11 +45,20 @@ namespace DAL
         User AuthUser(string email, string password);
         void SaveUser(User user);
 
+        User GetUserById(int id);
+
         List<Apartment> SearchAparments(ApartmenSearchModel searchModel);
 
         //IList<Apartment> GetApartmentsByCity(int id);
 
+        void DeleteApartmentPicture(int id);
+
         int GetAvgStarsReview(int id);
 
+        void SetRepresentativePicture(int id);
+
+        void SetApartmentReview(ApartmentReview apartmentReview);
+
+        IList<ApartmentReservation> GetUserReservation(int id);
     }
 }

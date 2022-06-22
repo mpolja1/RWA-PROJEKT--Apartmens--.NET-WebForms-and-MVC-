@@ -42,7 +42,7 @@ namespace DAL.DAL
             DataRow row = tblUser.Rows[0];
             return new User
             {
-                Id = (int)row[nameof(User.Id)],
+                Id = row[nameof(User.Id)].ToString(),
                 Guid = (Guid)row[nameof(User.Guid)],
                 CreatedAt = (DateTime)row[nameof(User.CreatedAt)],
                 Email = row[nameof(User.Email)].ToString(),
@@ -50,6 +50,11 @@ namespace DAL.DAL
                 UserName = row[nameof(User.UserName)].ToString(),
                 Address = row[nameof(User.Address)].ToString()
             };
+        }
+
+        public void DeleteApartmentPicture(int id)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(DeleteApartmentPicture), id);
         }
 
         public void DeleteApartmentSoft(int id)
@@ -95,7 +100,8 @@ namespace DAL.DAL
                     MaxAdults = (int)row[nameof(Apartment.MaxAdults)],
                     MaxChildren = (int)row[nameof(Apartment.MaxChildren)],
                     TotalRooms = (int)row[nameof(Apartment.TotalRooms)],
-                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)]
+                    BeachDistance = (int)row[nameof(Apartment.BeachDistance)],
+                    AvgStars = GetAvgStarsReview((int)row[nameof(Apartment.Id)])
 
                 };
             };
@@ -133,40 +139,7 @@ namespace DAL.DAL
 
             var apartman = SqlHelper.ExecuteDataset(CS, nameof(GetApartments)).Tables[0];
 
-            //using (SqlConnection conn = new SqlConnection(CS))
-            //{
-            //    conn.Open();
-            //    SqlCommand cmd = new SqlCommand("GetApartments", conn);
-            //    cmd.CommandType = CommandType.StoredProcedure;
-            //    SqlDataReader reader = cmd.ExecuteReader();
-
-            //    while (reader.Read())
-            //    {
-
-            //       apartments.Add(new Apartment
-            //       {
-
-
-            //           Id = (int)reader[0],
-            //        Guid = (Guid)reader[1],
-            //        CreatedAt = (DateTime)reader[2],
-            //         DeletedAt = (DateTime)reader[3],
-            //        Owner = new ApartmentOwner((int)reader[4], (Guid)reader[5], (DateTime)reader[6], reader[7].ToString()),
-            //           //Status = new ApartmantStatus((int)reader[8], (Guid)reader[9], reader[10].ToString(), reader[11].ToString()),
-            //           //City = new City((int)reader[12], (Guid)reader[13], reader[14].ToString()),
-            //           //Address = reader[15].ToString(),
-            //           //Name = reader[16].ToString(),
-            //           //NameEng = reader[17].ToString(),
-            //           ////Price = decimal.Parse(reader[18].ToString()),
-            //           //MaxAdults = (int)reader[19],
-            //           //MaxChildren = (int)reader[20],
-            //           //TotalRooms = (int)reader[21],
-            //           //BeachDistance = (int)reader[22]
-
-            //       });
-
-            //    }
-            //}
+            
 
             foreach (DataRow row in apartman.Rows)
             {
@@ -373,7 +346,45 @@ namespace DAL.DAL
             return utags;
         }
 
-        public IList<User> GetUsers()
+        public User GetUserById(int id)
+        {
+            var tblUser = SqlHelper.ExecuteDataset(CS, nameof(GetUserById), id).Tables[0];
+            if (tblUser.Rows.Count == 0) return null;
+
+            DataRow row = tblUser.Rows[0];
+            return new User
+            {
+                Id = row[nameof(User.Id)].ToString(),
+                Guid = (Guid)row[nameof(User.Guid)],
+                CreatedAt = (DateTime)row[nameof(User.CreatedAt)],
+                Email = row[nameof(User.Email)].ToString(),
+                PasswordHash = row[nameof(User.PasswordHash)].ToString(),
+                UserName = row[nameof(User.UserName)].ToString(),
+                Address = row[nameof(User.Address)].ToString()
+            };
+        }
+
+        public IList<ApartmentReservation> GetUserReservation(int id)
+        {
+            IList<ApartmentReservation> reservation = new List<ApartmentReservation>();
+            var tblReservation = SqlHelper.ExecuteDataset(CS, nameof(GetUserReservation), id).Tables[0];
+            if (tblReservation.Rows.Count == 0) return null;
+
+            foreach (DataRow row in tblReservation.Rows)
+            {
+                reservation.Add(new ApartmentReservation
+                {
+                    ApartmentId = (int)row[nameof(ApartmentReservation.ApartmentId)],
+                    Details = row[nameof(ApartmentReservation.Details)].ToString(),
+                    UserId = (int)row[nameof(ApartmentReservation.UserId)]
+
+                });
+
+            }
+            return reservation;
+        }
+
+        public  IList<User> GetUsers()
         {
             IList<User> users = new List<User>();
 
@@ -382,7 +393,7 @@ namespace DAL.DAL
             {
                 users.Add(new User
                 {
-                    Id = (int)row[nameof(User.Id)],
+                    Id = row[nameof(User.Id)].ToString(),
                     Guid = (Guid)row[nameof(User.Guid)],
                     CreatedAt = (DateTime)row[nameof(User.CreatedAt)],
                     //DeletedAt = (DateTime?)row[nameof(User.DeletedAt)],
@@ -416,9 +427,9 @@ namespace DAL.DAL
             SqlHelper.ExecuteNonQuery(CS,nameof(SaveApartmentImages), apartmentpicture.ApartmentId, apartmentpicture.Path, apartmentpicture.Name);
         }
 
-        public void SaveApartmentReservation(int idapartment, ApartmentReservation apartmentReservation)
+        public void SaveApartmentReservation(ApartmentReservation apartmentReservation)
         {
-            SqlHelper.ExecuteNonQuery(CS, nameof(SaveApartmentReservation), idapartment, apartmentReservation.Details,
+            SqlHelper.ExecuteNonQuery(CS, nameof(SaveApartmentReservation),apartmentReservation.ApartmentId, apartmentReservation.Details,
            apartmentReservation.UserName, apartmentReservation.UserEmail, apartmentReservation.UserPhone, apartmentReservation.UserAddress);
         }
 
@@ -480,6 +491,17 @@ namespace DAL.DAL
 
 
             return apartments;
+        }
+
+        public void SetApartmentReview(ApartmentReview apartmentReview)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(SetApartmentReview), apartmentReview.ApartmentId,apartmentReview.UserId,apartmentReview.Details
+                ,apartmentReview.Stars);
+        }
+
+        public void SetRepresentativePicture(int id)
+        {
+            SqlHelper.ExecuteNonQuery(CS, nameof(SetRepresentativePicture), id);
         }
 
         public void UpdateApartment(Apartment apartment)

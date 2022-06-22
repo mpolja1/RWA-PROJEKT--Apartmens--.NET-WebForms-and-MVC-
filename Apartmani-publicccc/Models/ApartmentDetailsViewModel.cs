@@ -11,5 +11,6 @@ namespace Apartmani_publicccc.Models
         public Apartment apartment { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
         public IEnumerable<ApartmentPicture> Images { get; set; }
+        public User User { get; set; }
     }
 }

@@ -234,5 +234,15 @@ namespace Apartmani
             return false;
 
         }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            RequiredFieldValidator1.Enabled = false;
+            RequiredFieldValidator2.Enabled = false;
+            RequiredFieldValidator3.Enabled = false;
+            RequiredFieldValidator4.Enabled = false;
+            RequiredFieldValidator5.Enabled = false;
+            PanelApartment.Visible = false;
+        }
     }
 }

@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+ 
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -23,7 +24,7 @@
                 </a>
 
 
-                <a class="navbar-brand" href="#">@Apartmani_publicccc.Resources.Language.Rwa_Apartments</a>
+                <a class="navbar-brand" href="@Url.Action("Index","Apartment")">@DAL.Resources.Language.Rwa_Apartments</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,41 +32,52 @@
                 <ul class="nav navbar-nav">
                     <li style="margin-top:8px;">
                         <form class="form-inline">
-                        <input class="form-control mr-sm-2" name="Search" type="search" placeholder="@Apartmani_publicccc.Resources.Language.Search" aria-label="Search">
-                        <button class="btn btn-success my-1 my-sm-0" style="margin-bottom:5px;" type="submit">@Apartmani_publicccc.Resources.Language.Search</button>
-                    </form>
+                            <input class="form-control mr-sm-2" name="Search" type="search" placeholder="@DAL.Resources.Language.Search" aria-label="Search">
+                            <button class="btn btn-success my-1 my-sm-0" style="margin-bottom:5px;" type="submit">@DAL.Resources.Language.Search</button>
+                        </form>
                     </li>
-                    <li>@Html.ActionLink(Apartmani_publicccc.Resources.Language.Contact, "Contact", controllerName: "Apartment")</li>
-                    <li>@Html.ActionLink(Apartmani_publicccc.Resources.Language.About_Us, "AboutUs", controllerName: "Apartment")</li>
+                    <li>@Html.ActionLink(DAL.Resources.Language.Contact, "Contact", controllerName: "Apartment")</li>
+                    <li>@Html.ActionLink(DAL.Resources.Language.About_Us, "AboutUs", controllerName: "Apartment")</li>
+                    <li>
+                        <div class="dropdown" style="margin-top:8px;">
+                            <button class="btn bg-default dropdown-toggle" type="submit" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-globe"></span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <ul style="list-style-type:none">
+                                    <li>@Html.ActionLink("English", "Language", "Account", new { language = "en" }, null)</li>
+                                    <li>@Html.ActionLink("Croatian", "Language", "Account", new { language = "hr" }, null)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (Session["username"] != null)
                     {
-
-
-                        <li style="margin-top:16px">@Session["username"]</li>
                         <li>
-                            @Html.ActionLink(Apartmani_publicccc.Resources.Language.Logout, "Logout", "Account", htmlAttributes: new { @class = "btn" })
+                            <div class="dropdown" style="margin-top:8px;">
+                                <button class="btn bg-default dropdown-toggle" type="submit" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Session["username"]
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <ul style="list-style-type:none">
+                                        <li>@Html.ActionLink("Rezervacija",actionName:"UserReservation", controllerName: "Apartment",routeValues:new { id = Session["UserId"]},htmlAttributes: null)</li>
+                                    </ul>
+                                </div>
+                            </div>        
+                    
+                    </li>
+                        <li>
+                            @Html.ActionLink(DAL.Resources.Language.Logout,"Logout", "Account",null, htmlAttributes: new { @class = "btn" })
                         </li>
                     }
                     else
                     {
-                        <li>
-                            <div class="dropdown" style="margin-top:8px;">
-                                <button class="btn bg-transparent dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="glyphicon glyphicon-globe"></span>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <ul style="list-style-type:none">
-                                        <li>@Html.ActionLink("English", "Language", "Account", new { language = "en" }, null)</li>
-                                        <li>@Html.ActionLink("Croatian", "Language", "Account", new { language = "hr" }, null)</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li>@Html.ActionLink(@Apartmani_publicccc.Resources.Language.Login, "LogIn", controllerName: "Account")</li>
-                        <li>@Html.ActionLink(@Apartmani_publicccc.Resources.Language.Registration, "Registration", controllerName: "Account")</li>
+                      
+                        <li>@Html.ActionLink(DAL.Resources.Language.Login, "LogIn", controllerName: "Account")</li>
+                        <li>@Html.ActionLink(DAL.Resources.Language.Registration, "Registration", controllerName: "Account")</li>
                     }
                 </ul>
             </div><!-- /.navbar-collapse -->

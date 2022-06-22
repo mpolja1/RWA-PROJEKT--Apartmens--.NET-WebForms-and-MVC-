@@ -1,0 +1,94 @@
+﻿@model DAL.Models.ApartmentReview
+
+@{
+    ViewBag.Title = "Review";
+}
+
+@if (ViewBag.msg != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.msg
+    </div>
+}
+
+@using (Html.BeginForm("Review", "Apartment", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <h4>ApartmentReview</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <input type="hidden" name="ApartmentId" value="@Session["apartmenId"]" />
+        <input type="hidden" name="UserId" value="@Session["UserId"]" />
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Comment</label>
+            <textarea class="form-control" name="details" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <div onmouseout="CrateSelected()">
+                <span id="span1" onmouseout="cRateout(1)" onmouseover="cRateOver(1)" onclick="cRateClick(1)" class="glyphicon glyphicon-star-empty"></span>
+                <span id="span2" onmouseout="cRateout(2)" onmouseover="cRateOver(2)" onclick="cRateClick(2)" class="glyphicon glyphicon-star-empty"></span>
+                <span id="span3" onmouseout="cRateout(3)" onmouseover="cRateOver(3)" onclick="cRateClick(3)" class="glyphicon glyphicon-star-empty"></span>
+                <span id="span4" onmouseout="cRateout(4)" onmouseover="cRateOver(4)" onclick="cRateClick(4)" class="glyphicon glyphicon-star-empty"></span>
+                <span id="span5" onmouseout="cRateout(5)" onmouseover="cRateOver(5)" onclick="cRateClick(5)" class="glyphicon glyphicon-star-empty"></span>
+            </div>
+            <div>
+                <input type="hidden" name="stars" id="lblRating" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back", "UserReservation", new { id = Session["UserId"] })
+</div>
+
+@section scripts{
+
+    <script>
+        function cRateout(rating) {
+
+            for (var i = 1; i <= rating; i++) {
+
+                $("#span" + i).attr('class', 'glyphicon glyphicon-star-empty');
+            }
+
+        }
+        function cRateOver(rating) {
+            for (var i = 1; i <= rating; i++) {
+
+                $("#span" + i).attr('class', 'glyphicon glyphicon-star');
+            }
+        }
+        function cRateClick(rating) {
+            $("#lblRating").val(rating);
+            for (var i = 1; i <= rating; i++) {
+                $("#span" + i).attr('class', 'glyphicon glyphicon-star');
+            }
+
+            for (var i = rating + 1; i <= 5; i++) {
+                $("#span" + i).attr('class', 'glyphicon glyphicon-star-empty');
+            }
+        }
+        function CrateSelected() {
+            var rating = $("#lblRating").val();
+            for (var i = 1; i <= rating; i++) {
+                $("#span" + i).attr('class', 'glyphicon glyphicon-star');
+            }
+        }
+
+
+    </script>
+
+}
