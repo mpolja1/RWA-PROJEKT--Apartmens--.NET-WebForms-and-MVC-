@@ -68,73 +68,73 @@
     </div>
     <hr />
 }
+<div class="container-fluid">
+    @foreach (var apartmet in Model)
+    {
 
-@foreach (var apartmet in Model)
-{
+        <div class="col-md-3" style="margin-bottom:40px;height:280px;">
+            <div class="card mb-2 table-bordered font-bold text-center" style="border-radius: 10%; padding: 5px;font-size:1.3em">
 
-    <div class="col-md-3" style="margin-bottom:40px;height:280px;">
-        <div class="card mb-2 table-bordered font-bold text-center" style="border-radius: 10%; padding: 5px;font-size:1.3em">
-
-            <h4 class="card-title text-left" id="naslov" style="margin:5px;">
-                @apartmet.Name
-
-
-                @for (int i = 0; i < apartmet.AvgStars; i++)
-                {
-                    <span class="glyphicon glyphicon-star "></span>
-                }
-                @for (int i = apartmet.AvgStars; i < 5; i++)
-                {
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                }
-            </h4>
-            <hr />
+                <h4 class="card-title text-left" id="naslov" style="margin:5px;">
+                    @apartmet.Name
 
 
-            <div class="row">
-                <div class="col-sm-7">
-                    @foreach (var item in apartmet.apartmentPictures)
+                    @for (int i = 0; i < apartmet.AvgStars; i++)
                     {
-                        if (item.isRepresentative)
-                        {
-                            <img src="/Apartment/Picture?Path=@item.Path" alt="no-image" class="img-fluid" style="border-radius: 5%" width="250" height="170">
-
-                        }
+                        <span class="glyphicon glyphicon-star "></span>
                     }
+                    @for (int i = apartmet.AvgStars; i < 5; i++)
+                    {
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    }
+                </h4>
+                <hr />
 
+
+                <div class="row">
+                    <div class="col-sm-7">
+                        @foreach (var item in apartmet.apartmentPictures)
+                        {
+                            if (item.isRepresentative)
+                            {
+                                <img src="/Apartment/Picture?Path=@item.Path" alt="no-image" class="img-fluid" style="border-radius: 5%" width="250" height="170">
+
+                            }
+                        }
+
+                    </div>
+                    <div class="col-sm-5">
+                        <ul>
+                            <li>@apartmet.City</li>
+                            <li>@apartmet.BeachDistance m @Language.From_Beach</li>
+                            <li>@apartmet.TotalRooms @Language.Room</li>
+                            <li>@apartmet.MaxAdults @Language.Adults.ToLower()</li>
+                            <li>@apartmet.MaxChildren @Language.Childrens</li>
+
+                        </ul>
+
+                    </div>
                 </div>
-                <div class="col-sm-5">
-                    <ul>
-                        <li>@apartmet.City</li>
-                        <li>@apartmet.BeachDistance m @Language.From_Beach</li>
-                        <li>@apartmet.TotalRooms @Language.Room</li>
-                        <li>@apartmet.MaxAdults @Language.Adults.ToLower()</li>
-                        <li>@apartmet.MaxChildren @Language.Childrens</li>
 
-                    </ul>
+                <div class="card-body " style="padding:10px">
+                    <div class="col-sm-8">
+                        <span class="font-bold"><strong> @apartmet.Price $</strong></span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.ActionLink(Language.Reservation, "Details", new { id = apartmet.Id }, new { @class = "btn btn-primary rounded-3" })
 
-                </div>
-            </div>
-
-            <div class="card-body " style="padding:10px">
-                <div class="col-sm-8">
-                    <span class="font-bold"><strong> @apartmet.Price $</strong></span>
-                </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-4">
-                            @Html.ActionLink(Language.Reservation, "Details", new { id = apartmet.Id }, new { @class = "btn btn-primary rounded-3" })
-
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
-
-}
-
+    }
+</div>
 @section scripts{
     <script>
 
