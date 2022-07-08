@@ -36,8 +36,11 @@ li{
     margin-top:10px;
 }*/
 footer{
-   padding:10px;
-    background-color:grey;     
+   
+    height:30px;
+  
+    background-color:dodgerblue;
+    margin-top:120px;
 }
 .glyphicon-star{
     color:orange;

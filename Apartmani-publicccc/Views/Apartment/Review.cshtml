@@ -2,14 +2,10 @@
 
 @{
     ViewBag.Title = "Review";
+
 }
 
-@if (ViewBag.msg != null)
-{
-    <div class="alert alert-success">
-        @ViewBag.msg
-    </div>
-}
+
 
 @using (Html.BeginForm("Review", "Apartment", FormMethod.Post))
 {
@@ -24,7 +20,7 @@
 
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Comment</label>
-            <textarea class="form-control" name="details" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea class="form-control" name="details" id="details" rows="3"></textarea>
         </div>
         <div class="form-group">
             <div onmouseout="CrateSelected()">
@@ -42,7 +38,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input value="Save" class="btn btn-primary" onclick="recenzija()" />
             </div>
         </div>
 
@@ -88,6 +84,33 @@
             }
         }
 
+        function recenzija() {
+
+             var apartmentReservation = {
+                 ApartmentId: @int.Parse(Session["apartmenId"].ToString()),
+                 UserId: @int.Parse(Session["UserId"].ToString()),
+                 Details: $("#details").val(),
+                 Stars: $("#lblRating").val()
+            };
+
+        $.ajax({
+            method: "POST",
+            data: { apartmentReview: apartmentReservation },
+            success: function (result) {
+                swal({
+                    text: "Uspjesno",
+                    icon: "success",
+                }).then((value) => {
+                    window.location.href = result.Url;
+                });
+
+
+            }
+
+
+
+        });
+        };
 
     </script>
 

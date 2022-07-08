@@ -6,7 +6,12 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
- 
+    <link rel="stylesheet"
+          href="/content/jquery.fancybox.css"
+          type="text/css"
+          media="screen" />
+    
+  
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -63,19 +68,19 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                     <ul style="list-style-type:none">
-                                        <li>@Html.ActionLink("Rezervacija",actionName:"UserReservation", controllerName: "Apartment",routeValues:new { id = Session["UserId"]},htmlAttributes: null)</li>
+                                        <li>@Html.ActionLink("Rezervacija", actionName: "UserReservation", controllerName: "Apartment", routeValues: new { id = Session["UserId"] }, htmlAttributes: null)</li>
                                     </ul>
                                 </div>
-                            </div>        
-                    
-                    </li>
+                            </div>
+
+                        </li>
                         <li>
-                            @Html.ActionLink(DAL.Resources.Language.Logout,"Logout", "Account",null, htmlAttributes: new { @class = "btn" })
+                            @Html.ActionLink(DAL.Resources.Language.Logout, "Logout", "Account", null, htmlAttributes: new { @class = "btn" })
                         </li>
                     }
                     else
                     {
-                      
+
                         <li>@Html.ActionLink(DAL.Resources.Language.Login, "LogIn", controllerName: "Account")</li>
                         <li>@Html.ActionLink(DAL.Resources.Language.Registration, "Registration", controllerName: "Account")</li>
                     }
@@ -86,13 +91,18 @@
     <div class="body-content">
         @RenderBody()
         <hr />
-        @*<footer class="navbar-fixed-bottom text-center ">
+
+        <footer class="text-center navbar-fixed-bottom">
             <p class="text-white">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>*@
+        </footer>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript"
+            src="/scripts/jquery.fancybox.pack.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

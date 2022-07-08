@@ -130,7 +130,7 @@
                     <h1>Images</h1>
                     <asp:Repeater ID="RepeaterImages" runat="server">
                         <ItemTemplate>
-                            <asp:Image ImageUrl='<%#Eval("Path")%>' CssClass="img-fluid p-1" Width="180" Height="120" AlternateText='<%#Eval("Name")%>' runat="server" />
+                            <asp:Image ImageUrl='<%#"~/Images/"+Eval("Path")%>' ID="Image" CssClass="img-fluid p-1" Width="180" Height="120" AlternateText='<%#Eval("Name")%>' runat="server" />
                             <asp:CheckBox ID="checkboxvalues" runat="server" CommandArgument='<%#Eval("Id")%>'  Checked='<%#Eval("isRepresentative") %>'/>
 
                         </ItemTemplate>

@@ -1,4 +1,4 @@
-﻿using Apartmani_publicccc.Models.Auth;
+﻿
 using DAL;
 using DAL.DAL;
 using DAL.Models;
@@ -18,31 +18,7 @@ namespace Apartmani_publicccc.Controllers
     public class AccountController : Controller
     {
         public Irepo repo = RepoFactory.GetRepository();
-        private UserManager _authManager;
-        private SignInManager _signInManager;
-
-        public SignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<SignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;    
-            }
-        }
-        public UserManager AuthManager
-        {
-            get
-            {
-                return _authManager ?? HttpContext.GetOwinContext().Get<UserManager>();
-            }
-            private set
-            {
-                _authManager = value;
-            }
-        }
+       
 
         public ActionResult LogIn()
         {
@@ -50,7 +26,7 @@ namespace Apartmani_publicccc.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> LogIn(User user)
+        public  ActionResult LogIn(User user)
         {
 
             //if (!ModelState.IsValid)
@@ -66,13 +42,6 @@ namespace Apartmani_publicccc.Controllers
                 Session["UserId"] = authuser.Id;
                 return RedirectToAction("Index", "Apartment");
             }
-
-                //var authUser = await AuthManager.FindAsync(user.Email, user.PasswordHash);
-                //if (authUser != null)
-                //{
-                //  await  SignInManager.SignInAsync(user, true, false);
-                //    return RedirectToAction("Index", controllerName: "Apartment");
-                //}
                 else
                 {
                     ViewBag.Notification = DAL.Resources.Language.WrongPasswordEmail;

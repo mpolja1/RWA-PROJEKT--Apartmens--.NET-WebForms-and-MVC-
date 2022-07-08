@@ -20,7 +20,7 @@
 
 
 <div class="container-fluid">
-    <div>
+    
         <h2 style="margin-left:10px">@Model.apartment.Name</h2>
         <div class="col-md-2">
             <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/311687198.jpg?k=a07e60b1a3d5e656cc6915ef6448450e183a905f13c03cf0138368276f9a31a8&o=&hp=1" width="250" height="250" alt="Alternate Text" />
@@ -46,6 +46,8 @@
 
             </ul>
         </div>
+
+        
         @using (Html.BeginForm("Reservation", "Apartment", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
@@ -114,17 +116,35 @@
 
 
         }
-    </div>
-</div>
-@Html.Partial("_slike", Model.Images);
-
-<div>
-    <p>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    
 </div>
 
-@section scripts{
+<div class="container-fluid">
+    @Html.Partial("_slike", Model.Images);
+</div>
 
 
+@section  scripts{
+    <script>
+        $(document).ready(function () {
+            $(".fancy-photo").fancybox({
+                cyclic: false,
+                
+                onUpdate: function () {
+                    $(".fancybox-nav span").css({
+                        visibility: "visible"
+                    });
+                    return;
+                },
+                afterClose: function () {
+                    $(".fancybox-nav span").css({
+                        visibility: "hidden"
+                    });
+                    return;
+                    
+                }
+            });
+
+        });
+    </script>
 }

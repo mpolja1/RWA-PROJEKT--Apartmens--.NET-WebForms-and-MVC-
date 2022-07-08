@@ -7,19 +7,30 @@
     List<SelectListItem> city = ViewBag.city as List<SelectListItem>;
     string room = "";
     string adult = "";
+    string children = "";
     if (Request.Cookies["filter"].Values != null)
     {
         room = Request.Cookies["filter"]["room"];
         adult = Request.Cookies["filter"]["adult"];
+        children = Request.Cookies["filter"]["children"];
     }
 }
 @if (TempData["AlertMsg"] != null)
 {
-<div class="alert alert-success">
-    @TempData["AlertMsg"]
-</div>
+    <div class="alert alert-success">
+        @TempData["AlertMsg"]
+    </div>
 }
 
+@if (TempData["Uspjesno"] != null)
+{
+<div class="alert alert-success">
+    @TempData["Uspjesno"]
+</div>
+}
+<div id="div">
+
+</div>
 @using (Html.BeginForm(null, null, FormMethod.Get, new { @id = "formFilter" }))
 {
 
@@ -36,14 +47,14 @@
 
         <div class="form-group col-sm-12">
             @Html.Label(expression: "Children", labelText: Language.Children)
-            <input type="number" id="Children" name="Children" value="" />
+            <input type="number" id="Children" name="Children" value="@children" />
         </div>
 
         <div class="form-inline mb-2 form-group">
             <div class="col-sm-9">
                 @Html.Label(expression: "city", labelText: Language.Destination, htmlAttributes: new { Style = "margin-right:10px" })
                 @Html.DropDownList(name: "city", optionLabel: Language.Select, selectList: city, htmlAttributes: new { @class = "form-control", id = "city" })
-                <button type="submit" class="btn btn-primary">Go</button>
+                <button type="submit" id="btnGo" class="btn btn-primary">Go</button>
 
             </div>
             <div class="col-md-3">
@@ -86,7 +97,7 @@
                     {
                         if (item.isRepresentative)
                         {
-                            <img src="@item.Path" alt="no-image" class="img-fluid" style="border-radius: 5%" width="230" height="150">
+                            <img src="/Apartment/Picture?Path=@item.Path" alt="no-image" class="img-fluid" style="border-radius: 5%" width="250" height="170">
 
                         }
                     }
@@ -134,20 +145,25 @@
             $("#city").change(function () {
                 $("#formFilter").submit();
             });
-            //    $.ajax({
-            //        type: "GET",
-            //        url: "/Apartment/Index",
-            //        success: function (data) {
+            var searchModel = {
 
-            //            data = JSON.parse(data);
-            //            $("#naslov").text(data.Name);
-            //        },
-            //        error: function(err) {
-            //            console.log(err)
-            //        }
-            //    })
+                Room: $("#Room").val(),
+                Children: $("#Children").val(),
+                Adult: $("#Adult").val()
 
+            };
+            
 
+            $.ajax({
+                type: "GET",
+                url: "/Apartment/Filter/",
+                data: {search: searchModel},
+                dataType: "html",
+                success: function (data) {
+          
+                }
+            })
+            
         });
 
 

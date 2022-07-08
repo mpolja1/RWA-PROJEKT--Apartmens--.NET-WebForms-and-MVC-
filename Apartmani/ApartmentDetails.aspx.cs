@@ -34,6 +34,10 @@ namespace Apartmani
                     _apartment = ((Irepo)Application["database"]).GetApartmentById(idApartment);
                 _apartmentTaggs = ((Irepo)Application["database"]).GetTagsByApartment(idApartment);
                 _pictures = ((Irepo)Application["database"]).GetApartmentPictures(idApartment);
+                foreach (var item in _pictures)
+                {
+                    
+                }
 
 
 
@@ -65,6 +69,7 @@ namespace Apartmani
             ddlUnusedTags.DataValueField = "Id";
             ddlUnusedTags.DataTextField = "Name";
             ddlUnusedTags.DataBind();
+            
         }
 
         private void AppendImages()
@@ -127,9 +132,7 @@ namespace Apartmani
 
         protected void btnEdit_Click(object sender, EventArgs e)
         {
-            //DoReadOnly(this.PanelEditApartment);
-            //btnEdit.Text = btnEdit.Text== "Save" ? "Edit" : "Save";
-            
+           
 
             ApartmentOwner apartmentOwner = new ApartmentOwner();
             ApartmantStatus apartmantStatus = new ApartmantStatus();
@@ -155,34 +158,6 @@ namespace Apartmani
             }
             
         }
-        
-        //void DoReadOnly(Control control)
-        //{
-            
-        //    foreach (Control c in control.Controls)
-        //    {
-        //        if (c.Controls != null && c.Controls.Count > 0)
-        //        {
-        //            DoReadOnly(c);
-        //        }
-        //        else if (c is TextBox )
-        //        {
-        //            if ((c as TextBox).ReadOnly==false )
-        //            {
-        //                (c as TextBox).ReadOnly = true;
-                       
-
-
-        //            }
-        //            else
-        //            {
-        //                (c as TextBox).ReadOnly=false;
-                       
-        //            }
-        //        }
-                
-        //    }
-        //}
 
         protected void btnAddReservation_Click(object sender, EventArgs e)
         {
@@ -238,7 +213,7 @@ namespace Apartmani
                 }
                 string path = Path.Combine(rootImages, imgfile);
                 ImageUpload.SaveAs(path);
-                string databasePath = _picPath + imgfile;
+                string databasePath = imgfile;
 
                     int idApart = (int)Session["IdApartment"];
                     string title = txtImageName.Text;
@@ -255,15 +230,6 @@ namespace Apartmani
                 lblMsg.Text = "Greska";
                 lblMsg.ForeColor = System.Drawing.Color.Green;
             }
-            //if (ImageUpload.HasFile)
-            //{
-            //    var imageroot = Server.MapPath(_picPath);
-            //    if (!Directory.Exists(imageroot))
-            //        Directory.CreateDirectory(imageroot);
-            //    var imagePath = Path.Combine(imageroot, Path.GetFileName(ImageUpload.FileName));
-            //    ImageUpload.SaveAs(imagePath);
-            //}
-
         }
 
         protected void bntDeleteTag_click(object sender, EventArgs e)
@@ -314,12 +280,7 @@ namespace Apartmani
                     
                 }
             }
-            //AppendImages();
-            //Page.Response.Redirect(Page.Request.Url.ToString(), true);
-
-
-
-
+           
         }
 
         protected void btnSetRepresentative_Click(object sender, EventArgs e)
@@ -339,8 +300,7 @@ namespace Apartmani
 
                 
             }
-            //AppendImages();
-            //Page.Response.Redirect(Page.Request.Url.ToString(), true);
+      
 
         }
     }

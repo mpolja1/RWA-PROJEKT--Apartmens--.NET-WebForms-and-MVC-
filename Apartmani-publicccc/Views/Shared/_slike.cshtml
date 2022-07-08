@@ -1,26 +1,22 @@
 ﻿@model IEnumerable<DAL.Models.ApartmentPicture>
 
-<head>
-        <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-        <link href="~/Content/jquery.fancybox-thumbs.css" rel="stylesheet" />
-        <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
-        <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
-    </head>
+@*<head>
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+    <link href="~/Content/jquery.fancybox-thumbs.css" rel="stylesheet" />
+    <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+    <link href="~/Content/jquery.fancybox-buttons.css" rel="stylesheet" />
+</head>*@
 
 
-    <div class="gallery">
-        <div class="col">
-            @foreach (var image in Model)
-            {
-                <div class="col-md-2" style="margin:10px;">
-                    <a class="grouped_elements" rel="group1" href="@image.Path"><img src="@image.Path" alt="@image.Name" width="300" height="250" /></a>
-                </div>
+<div class="gallery">
+    <div class="col">
+        @foreach (var image in Model)
+        {
+            <div class="col-md-2" style="margin:10px;">
+                <a class="fancy-photo" rel="group" href="/Apartment/Picture?Path=@image.Path"><img src="/Apartment/Picture?Path=@image.Path" alt="@image.Name" width="300" height="250" /></a>
+            </div>
 
-            }
-        </div>
+        }
     </div>
-
-
-
-  
+</div>
 

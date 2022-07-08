@@ -29,9 +29,9 @@
 	background: #f9f9f9;
 	color: #444;
 	text-shadow: none;
-	-webkit-border-radius: 4px;
-	   -moz-border-radius: 4px;
-	        border-radius: 4px;
+	-webkit-border-radius: 34px;
+	   -moz-border-radius: 34px;
+	        border-radius: 34px;
 }
 
 .fancybox-opened {
@@ -65,7 +65,7 @@
 }
 
 .fancybox-image, .fancybox-iframe {
-	display: block;
+	display:block;
 	width: 100%;
 	height: 100%;
 }
@@ -73,6 +73,7 @@
 .fancybox-image {
 	max-width: 100%;
 	max-height: 100%;
+	border-radius:5%;
 }
 
 #fancybox-loading, .fancybox-close, .fancybox-prev span, .fancybox-next span {

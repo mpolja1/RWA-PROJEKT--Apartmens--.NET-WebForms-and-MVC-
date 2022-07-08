@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartmani - admin", "Apartmani\Apartmani - admin.csproj", "{50FB211E-19CB-4891-9C0F-72944D0B3FC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartmani-admin", "Apartmani\Apartmani-admin.csproj", "{50FB211E-19CB-4891-9C0F-72944D0B3FC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWALib", "DAL\RWALib.csproj", "{67CFFBAB-7556-424B-80B4-2380208D854B}"
 EndProject

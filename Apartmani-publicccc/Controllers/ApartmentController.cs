@@ -8,7 +8,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CaptchaMvc.HtmlHelpers;
-
+using System.IO;
+using Apartmani_publicccc.Models.CustomAttributes;
 
 namespace Apartmani_publicccc.Controllers
 {
@@ -17,6 +18,7 @@ namespace Apartmani_publicccc.Controllers
     {
 
         Irepo repo = RepoFactory.GetRepository();
+
         public ActionResult Index(ApartmenSearchModel searchModel)
         {
             List<SelectListItem> list = new List<SelectListItem>()
@@ -29,21 +31,38 @@ namespace Apartmani_publicccc.Controllers
             HttpCookie filter = new HttpCookie("filter");
 
             filter.Values.Add("room", searchModel.Room.ToString());
-            filter.Values.Add("adult", searchModel.Room.ToString());
+            filter.Values.Add("adult", searchModel.Adult.ToString());
             filter.Values.Add("children", searchModel.Children.ToString());
 
 
-            //filter.Expires.AddMinutes(1);
-
             Response.Cookies.Add(filter);
 
+            
+
             var model = repo.SearchAparments(searchModel);
+           
 
             return View(model);
         }
 
 
         [HttpGet]
+        //[IsAuthorized]
+
+        public JsonResult Filter(ApartmenSearchModel search)
+        {
+            var model=repo.GetApartments();
+            if (search!= null)
+            {
+                model = repo.SearchAparments(search);
+            }
+
+           
+   
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+   
+
         public ActionResult Details(int id)
         {
             var model = new ApartmentDetailsViewModel
@@ -71,21 +90,34 @@ namespace Apartmani_publicccc.Controllers
         public ActionResult Reservation(ApartmentReservation reservation)
         {
 
-
-
-            if (!this.IsCaptchaValid(""))
+            if (Session["UserId"]==null)
             {
-                ViewBag.error = "Neuspjesno";
+                if (!this.IsCaptchaValid(""))
+                {
+                    ViewBag.error = "Neuspjesno";
 
-                return Redirect(Request.UrlReferrer.ToString());
+                    return Redirect(Request.UrlReferrer.ToString());
 
+                }
+                else
+                {
+                    repo.SaveApartmentReservation(reservation);
+                    ViewBag.apartman = repo.GetApartmentById(reservation.ApartmentId);
+                    return Redirect("prboinjo");
+                }
             }
             else
             {
-                ViewBag.uspjesno = "Rezervacija uspjesno spremljena";
-                repo.SaveApartmentReservation(reservation);
-                return Redirect(Request.UrlReferrer.ToString());
+                if (ModelState.IsValid)
+                {
+                    repo.SaveApartmentReservation(reservation);
+                    ViewBag.apartman = repo.GetApartmentById(reservation.ApartmentId);
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
             }
+            
+            return Json(reservation,JsonRequestBehavior.AllowGet);
+            
         }
 
         public ActionResult AboutUs()
@@ -97,6 +129,18 @@ namespace Apartmani_publicccc.Controllers
 
             return View();
         }
+        
+        public ActionResult Picture(string path)
+        {
+            if (path == null || string.IsNullOrEmpty(path))
+                return Content(content: "File missing");
+
+            var javnoRoot = Server.MapPath("~");
+            var adminRoot = Path.Combine(javnoRoot, "../Apartmani/Images");
+            var picturePath = Path.Combine(adminRoot, path);
+            string mimeType = MimeMapping.GetMimeMapping(picturePath);
+            return new FilePathResult(picturePath, mimeType);
+        }
 
         public ActionResult UserReservation(int id)
         {
@@ -107,9 +151,7 @@ namespace Apartmani_publicccc.Controllers
                apartmani.Add(repo.GetApartmentById(item.ApartmentId));
                
             }
-            
-
-
+           
             return View(apartmani);
         }
 
@@ -124,9 +166,12 @@ namespace Apartmani_publicccc.Controllers
         {
             
             repo.SetApartmentReview(apartmentReview);
-            ViewBag.msg = "Uspjesna recenzija";
-           
-            return View();
+         
+
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action( "Index","Apartment",new {apartmentReview.ApartmentId});
+            return Json(new { Url = redirectUrl });
+
+            
         }
 
     }

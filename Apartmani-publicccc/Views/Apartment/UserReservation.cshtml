@@ -34,6 +34,7 @@
         <th>
             @Html.DisplayNameFor(model => model.BeachDistance)
         </th>
+       
         <th></th>
     </tr>
 
@@ -63,12 +64,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.BeachDistance)
         </td>
-
+       
         <td>
             @Html.ActionLink("Review", "Review", new { id=item.Id }, new {@class="btn btn-primary"}) 
            
         </td>
     </tr>
+
+    
 }
 
 </table>
