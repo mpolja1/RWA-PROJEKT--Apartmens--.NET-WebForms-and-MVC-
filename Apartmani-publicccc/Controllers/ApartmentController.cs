@@ -13,7 +13,7 @@ using Apartmani_publicccc.Models.CustomAttributes;
 
 namespace Apartmani_publicccc.Controllers
 {
-   
+
     public class ApartmentController : Controller
     {
 
@@ -24,12 +24,11 @@ namespace Apartmani_publicccc.Controllers
             List<SelectListItem> list = new List<SelectListItem>()
             {new SelectListItem{Text="Price-Najveca/Najmanja",Value="Desc"},
                new SelectListItem{Text="Price-Najmanja/Najveca",Value="Asc"} };
-            ViewBag.listToSort = list;
 
+            ViewBag.listToSort = list;
             ViewBag.city = new SelectList(repo.GetCities(), "Id", "Name");
 
             HttpCookie filter = new HttpCookie("filter");
-
             filter.Values.Add("room", searchModel.Room.ToString());
             filter.Values.Add("adult", searchModel.Adult.ToString());
             filter.Values.Add("children", searchModel.Children.ToString());
@@ -37,31 +36,28 @@ namespace Apartmani_publicccc.Controllers
 
             Response.Cookies.Add(filter);
 
-            
-
             var model = repo.SearchAparments(searchModel);
-           
+
 
             return View(model);
         }
 
 
         [HttpGet]
-        //[IsAuthorized]
 
         public JsonResult Filter(ApartmenSearchModel search)
         {
-            var model=repo.GetApartments();
-            if (search!= null)
+            var model = repo.GetApartments();
+            if (search != null)
             {
                 model = repo.SearchAparments(search);
             }
 
-           
-   
+
+
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-   
+
 
         public ActionResult Details(int id)
         {
@@ -90,7 +86,7 @@ namespace Apartmani_publicccc.Controllers
         public ActionResult Reservation(ApartmentReservation reservation)
         {
 
-            if (Session["UserId"]==null)
+            if (Session["UserId"] == null)
             {
                 if (!this.IsCaptchaValid(""))
                 {
@@ -115,9 +111,9 @@ namespace Apartmani_publicccc.Controllers
                     return Redirect(Request.UrlReferrer.ToString());
                 }
             }
-            
-            return Json(reservation,JsonRequestBehavior.AllowGet);
-            
+
+            return Json(reservation, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult AboutUs()
@@ -129,7 +125,7 @@ namespace Apartmani_publicccc.Controllers
 
             return View();
         }
-        
+
         public ActionResult Picture(string path)
         {
             if (path == null || string.IsNullOrEmpty(path))
@@ -148,10 +144,10 @@ namespace Apartmani_publicccc.Controllers
             List<Apartment> apartmani = new List<Apartment>();
             foreach (var item in reservation)
             {
-               apartmani.Add(repo.GetApartmentById(item.ApartmentId));
-               
+                apartmani.Add(repo.GetApartmentById(item.ApartmentId));
+
             }
-           
+
             return View(apartmani);
         }
 
@@ -164,14 +160,14 @@ namespace Apartmani_publicccc.Controllers
         [HttpPost]
         public ActionResult Review(ApartmentReview apartmentReview)
         {
-            
-            repo.SetApartmentReview(apartmentReview);
-         
 
-            var redirectUrl = new UrlHelper(Request.RequestContext).Action( "Index","Apartment",new {apartmentReview.ApartmentId});
+            repo.SetApartmentReview(apartmentReview);
+
+
+            var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "Apartment", new { apartmentReview.ApartmentId });
             return Json(new { Url = redirectUrl });
 
-            
+
         }
 
     }

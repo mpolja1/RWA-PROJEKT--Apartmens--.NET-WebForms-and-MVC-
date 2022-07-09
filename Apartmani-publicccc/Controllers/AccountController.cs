@@ -19,7 +19,6 @@ namespace Apartmani_publicccc.Controllers
     {
         public Irepo repo = RepoFactory.GetRepository();
        
-
         public ActionResult LogIn()
         {
             return View();
@@ -29,12 +28,6 @@ namespace Apartmani_publicccc.Controllers
         public  ActionResult LogIn(User user)
         {
 
-            //if (!ModelState.IsValid)
-            //{
-
-            //    return View(user);
-
-            //}
             var authuser = repo.AuthUser(user.Email, user.PasswordHash);
             if (authuser != null)
             {
