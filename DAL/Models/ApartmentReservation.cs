@@ -9,13 +9,16 @@ namespace DAL.Models
 {
     public class ApartmentReservation
     {
-     
+
 
         public int Id { get; set; }
         public Guid Guid { get; set; }
         public DateTime CreatedAt { get; set; }
         public int ApartmentId { get; set; }
         public string Details { get; set; }
+      
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
         public int UserId { get; set; }
 
         [Required]

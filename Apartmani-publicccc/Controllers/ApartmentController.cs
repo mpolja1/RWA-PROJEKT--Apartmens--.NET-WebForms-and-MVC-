@@ -53,11 +53,8 @@ namespace Apartmani_publicccc.Controllers
                 model = repo.SearchAparments(search);
             }
 
-
-
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult Details(int id)
         {
@@ -69,14 +66,11 @@ namespace Apartmani_publicccc.Controllers
 
             };
 
-
             if (Session["UserId"] != null)
             {
                 int userId = int.Parse((string)Session["Userid"]);
                 model.User = repo.GetUserById(userId);
             }
-
-
 
             return View(model);
         }
@@ -86,12 +80,18 @@ namespace Apartmani_publicccc.Controllers
         public ActionResult Reservation(ApartmentReservation reservation)
         {
 
-            if (Session["UserId"] == null)
+            if (Session["UserId"] != null)
+            {
+                reservation.Details = reservation.From.ToShortDateString() + "-" + reservation.To.ToShortDateString();
+                repo.SaveApartmentReservation(reservation);
+                    TempData["Reservation"] = "Uspjesna rezervacija";
+                    return RedirectToAction("Index");
+            }
+            else
             {
                 if (!this.IsCaptchaValid(""))
                 {
                     ViewBag.error = "Neuspjesno";
-
                     return Redirect(Request.UrlReferrer.ToString());
 
                 }
@@ -99,20 +99,10 @@ namespace Apartmani_publicccc.Controllers
                 {
                     repo.SaveApartmentReservation(reservation);
                     ViewBag.apartman = repo.GetApartmentById(reservation.ApartmentId);
-                    return Redirect("prboinjo");
-                }
-            }
-            else
-            {
-                if (ModelState.IsValid)
-                {
-                    repo.SaveApartmentReservation(reservation);
-                    ViewBag.apartman = repo.GetApartmentById(reservation.ApartmentId);
-                    return Redirect(Request.UrlReferrer.ToString());
+                    return View();
                 }
             }
 
-            return Json(reservation, JsonRequestBehavior.AllowGet);
 
         }
 

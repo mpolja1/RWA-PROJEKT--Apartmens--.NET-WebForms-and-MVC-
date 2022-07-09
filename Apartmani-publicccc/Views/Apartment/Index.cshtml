@@ -5,6 +5,7 @@
     ViewBag.Title = "Index";
     List<SelectListItem> itemsToSort = ViewBag.listToSort as List<SelectListItem>;
     List<SelectListItem> city = ViewBag.city as List<SelectListItem>;
+    string rezervacija = TempData["Reservation"] as string;
     string room = "";
     string adult = "";
     string children = "";
@@ -22,12 +23,14 @@
     </div>
 }
 
-@if (TempData["Uspjesno"] != null)
+@if (!string.IsNullOrEmpty(rezervacija))
 {
-<div class="alert alert-success">
-    @TempData["Uspjesno"]
-</div>
+    <div class="alert alert-success">
+        @rezervacija
+    </div>
 }
+
+
 <div id="div">
 
 </div>
@@ -152,18 +155,18 @@
                 Adult: $("#Adult").val()
 
             };
-            
+
 
             $.ajax({
                 type: "GET",
                 url: "/Apartment/Filter/",
-                data: {search: searchModel},
+                data: { search: searchModel },
                 dataType: "html",
                 success: function (data) {
-          
+
                 }
             })
-            
+
         });
 
 
