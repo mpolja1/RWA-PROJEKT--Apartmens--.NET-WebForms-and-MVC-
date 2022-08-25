@@ -80,12 +80,13 @@ namespace Apartmani_publicccc.Controllers
         public ActionResult Reservation(ApartmentReservation reservation)
         {
 
+
             if (Session["UserId"] != null)
             {
                 reservation.Details = reservation.From.ToShortDateString() + "-" + reservation.To.ToShortDateString();
                 repo.SaveApartmentReservation(reservation);
-                    TempData["Reservation"] = "Uspjesna rezervacija";
-                    return RedirectToAction("Index");
+                TempData["Reservation"] = "Uspjesna rezervacija";
+                return RedirectToAction("Index");
             }
             else
             {
@@ -97,9 +98,19 @@ namespace Apartmani_publicccc.Controllers
                 }
                 else
                 {
-                    repo.SaveApartmentReservation(reservation);
-                    ViewBag.apartman = repo.GetApartmentById(reservation.ApartmentId);
-                    return View();
+                    if (ModelState.IsValid)
+                    {
+                        repo.SaveApartmentReservation(reservation);
+                        ViewBag.apartman = repo.GetApartmentById(reservation.ApartmentId);
+                        TempData["Reservation"] = "Uspjesna rezervacija";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["ReservationError"] = "Greska prilikom rezervacije provjerite podatke";
+                        return RedirectToAction("Index");
+                    }
+
                 }
             }
 
@@ -132,11 +143,16 @@ namespace Apartmani_publicccc.Controllers
         {
             var reservation = repo.GetUserReservation(id);
             List<Apartment> apartmani = new List<Apartment>();
-            foreach (var item in reservation)
-            {
-                apartmani.Add(repo.GetApartmentById(item.ApartmentId));
 
+            if (reservation != null)
+            {
+                foreach (var item in reservation)
+                {
+                    apartmani.Add(repo.GetApartmentById(item.ApartmentId));
+
+                }
             }
+
 
             return View(apartmani);
         }

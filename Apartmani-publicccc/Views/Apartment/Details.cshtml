@@ -17,106 +17,119 @@
 }
 
 
-
+@if (ViewBag.error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.error
+    </div>
+}
 
 <div class="container-fluid">
-    
-        <h2 style="margin-left:10px">@Model.apartment.Name</h2>
-        <div class="col-md-2">
-            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/311687198.jpg?k=a07e60b1a3d5e656cc6915ef6448450e183a905f13c03cf0138368276f9a31a8&o=&hp=1" width="250" height="250" alt="Alternate Text" />
-            <p style="font-weight:bold">@Model.apartment.Price $</p>
 
-            <div class="col-md-offset--12">
-                @foreach (var tag in Model.Tags)
-                {
-                    <ul>
-                        <li>@tag.Name</li>
-                    </ul>
-                }
-            </div>
-        </div>
-        <div class="col-md-2 gap-3 ">
-            <ul style="padding:30px;font-weight:bold;">
-                <li>@Model.apartment.City</li>
-                <li>@Model.apartment.BeachDistance m from beach</li>
-                <li>@Model.apartment.TotalRooms rooms</li>
-                <li>@Model.apartment.MaxChildren children</li>
-                <li>@Model.apartment.Owner.Name</li>
-
-
-            </ul>
-        </div>
-
-        
-        @using (Html.BeginForm("Reservation", "Apartment", FormMethod.Post))
+    <h2 style="margin-left:10px">@Model.apartment.Name</h2>
+    <div class="col-md-2">
+        @foreach (var image in Model.Images)
         {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="ApartmentId" value="@Model.apartment.Id" />
-            <div class="col-md-3">
-                <form>
-                    <div class="form-group row">
-                        <div class=" col-xs-6">
-                            <label for="UserName">Name</label>
-                            <input type="text" value="@name" class="form-control" name="email" id="UserName" placeholder="First and last name">
-                        </div>
+            if (image.isRepresentative)
+            {
+                <a class="fancy-photo" rel="group" href="/Apartment/Picture?Path=@image.Path"><img src="/Apartment/Picture?Path=@image.Path" alt="@image.Name" width="250" height="250" /></a>
 
-                    </div>
-                    <div class="form-group">
-                        <label for="UserEmail">Email</label>
-                        <input type="email" value="@email" class="form-control" name="email" id="UserEmail" placeholder="Email">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone/mobile</label>
-                        <input type="text" value="@phonenumber" class="form-control" id="phone" name="UserPhone" placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <div class="form-group col-md-8">
-                            <label for="inputCity">Adults</label>
-                            <input type="number" name="adults" class="form-control" id="inputCity">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="children">Children</label>
-                            <input type="number" name="children" id="children" class="form-control" />
-
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-2">
-                            <label for="from">From</label>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <input type="date" name="From" class="form-control" />
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-2">
-
-                            <label for="To">To</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="date" name="To" class="form-control" />
-                        </div>
-                    </div>
-                    @if (Model.User == null)
-                    {
-                        <div style="margin-bottom:10px;">
-
-                            <span>@Html.Captcha(6)</span>
-
-                        </div>
-                    }
-                    <input class="btn btn-primary" type="submit" name="name" value="Reservation" />
-
-                </form>
-            </div>
-
-
+            }
         }
-    
+        <p style="font-weight:bold">@Model.apartment.Price $</p>
+
+        <div class="col-md-offset--12">
+            @foreach (var tag in Model.Tags)
+            {
+                <ul>
+                    <li>@tag.Name</li>
+                </ul>
+            }
+        </div>
+    </div>
+    <div class="col-md-2 gap-3 ">
+        <ul style="padding:30px;font-weight:bold;">
+            <li>@Model.apartment.City</li>
+            <li>@Model.apartment.BeachDistance m from beach</li>
+            <li>@Model.apartment.TotalRooms rooms</li>
+            <li>@Model.apartment.MaxChildren children</li>
+            <li>@Model.apartment.Owner.Name</li>
+
+
+        </ul>
+    </div>
+
+
+    @using (Html.BeginForm("Reservation", "Apartment", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ApartmentId" value="@Model.apartment.Id" />
+        <div class="col-md-3">
+            <form>
+                <div class="form-group row">
+                    <div class=" col-xs-6">
+                        <label for="UserName">Name</label>
+                        <input type="text" value="@name" class="form-control" name="UserName" id="UserName" placeholder="First and last name">
+                        @Html.ValidationMessageFor(model => model.User.UserName, "", new { @class = "text - danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="UserEmail">Email</label>
+                    <input type="email" value="@email" class="form-control" name="UserEmail" id="UserEmail" placeholder="Email">
+
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone/mobile</label>
+                    <input type="text" value="@phonenumber" class="form-control" id="phone" name="UserPhone" placeholder="">
+                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-8">
+                        <label for="inputCity">Adults</label>
+                        <input type="number" name="adults" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="children">Children</label>
+                        <input type="number" name="children" id="children" class="form-control" />
+
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label for="from">From</label>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="date" name="From" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+
+                        <label for="To">To</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="date" name="To" class="form-control" />
+                    </div>
+                </div>
+                @if (Model.User == null)
+                {
+                    <div style="margin-bottom:10px;">
+
+                        <span>@Html.Captcha(6)</span>
+
+                    </div>
+                }
+                <input class="btn btn-primary" type="submit" name="name" value="Reservation" />
+
+            </form>
+        </div>
+
+
+    }
+
 </div>
 
 <div class="container-fluid">
@@ -129,7 +142,7 @@
         $(document).ready(function () {
             $(".fancy-photo").fancybox({
                 cyclic: false,
-                
+
                 onUpdate: function () {
                     $(".fancybox-nav span").css({
                         visibility: "visible"
@@ -141,7 +154,7 @@
                         visibility: "hidden"
                     });
                     return;
-                    
+
                 }
             });
 

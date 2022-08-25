@@ -6,6 +6,7 @@
     List<SelectListItem> itemsToSort = ViewBag.listToSort as List<SelectListItem>;
     List<SelectListItem> city = ViewBag.city as List<SelectListItem>;
     string rezervacija = TempData["Reservation"] as string;
+    string rezervacijaError = TempData["ReservationError"] as string;
     string room = "";
     string adult = "";
     string children = "";
@@ -29,6 +30,13 @@
         @rezervacija
     </div>
 }
+@if (!string.IsNullOrEmpty(rezervacijaError))
+{
+    <div class="alert alert-danger">
+        @rezervacijaError
+    </div>
+}
+
 
 
 <div id="div">
@@ -141,6 +149,8 @@
 @section scripts{
     <script>
 
+
+
         $(document).ready(function () {
             $("#sort").change(function () {
                 $("#formFilter").submit();
@@ -159,11 +169,19 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Apartment/Filter/",
+                url: "/Apartment/Filter/${searchModel}",
                 data: { search: searchModel },
-                dataType: "html",
+                dataType: "json",
                 success: function (data) {
 
+
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                    }
+
+                },
+                error: function () {
+                    alert("Error");
                 }
             })
 
